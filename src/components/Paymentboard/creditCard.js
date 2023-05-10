@@ -3,7 +3,8 @@ import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import styled from 'styled-components';
 import { Title } from './styled';
-import Button from './Button';
+import ButtonTest from './Button';
+// import Button from '../Form/Button';
 
 export default class PaymentForm extends React.Component {
   state = {
@@ -78,7 +79,8 @@ export default class PaymentForm extends React.Component {
             </Form>
           </FormContainer>
         </Container>
-        <Button />
+        <ButtonTest />
+        {/* <Button type="submit">finalizar pagamento</Button> */}
       </>
     );
   }
