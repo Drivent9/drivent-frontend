@@ -10,6 +10,6 @@ const StyledMuiButton = styled(MuiButton)`
   margin-top: 8px !important;
 `;
 
-// este modelo de botão é o mesmo do forms, definir a props e o childem deveria ser o finalizar pagamento,
-// por so um layout estatico
-//se ele é um componente usado em mais de um lugar, deveria ter uma pasta proprio? ou ser realocado? para evitar repetição de codigo.
+// este modelo de botão é o mesmo do forms
+//definir a props, o children deveria ser "finalizar pagamento"
+//se ele é um componente usado em mais de um lugar, deveria ter uma pasta propria? ou ser realocado? para evitar repetição de codigo?
