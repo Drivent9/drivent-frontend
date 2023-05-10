@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import PaymentForm from './creditCard';
 import ChosenTicket from './chosenTicket';
+import CompletedPayment from './completedPayment';
 
 export default function PaymentDashBoard() {
   return (
@@ -11,6 +12,8 @@ export default function PaymentDashBoard() {
       <ChosenTicket />
 
       <PaymentForm />
+
+      <CompletedPayment />
     </>
   );
 }

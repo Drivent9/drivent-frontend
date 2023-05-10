@@ -25,6 +25,7 @@ const ChosenTicketContainer = styled.div`
     font-weight: 400;
     line-height: 19px;
     text-align: center;
+    color: #454545;
   }
   h2 {
     font-family: 'Roboto', sans-serif;

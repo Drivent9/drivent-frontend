@@ -3,6 +3,7 @@ import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import styled from 'styled-components';
 import { Title } from './styled';
+import Button from './Button';
 
 export default class PaymentForm extends React.Component {
   state = {
@@ -77,6 +78,7 @@ export default class PaymentForm extends React.Component {
             </Form>
           </FormContainer>
         </Container>
+        <Button />
       </>
     );
   }
@@ -86,6 +88,7 @@ const Container = styled.div`
   display: flex;
   align-items: start;
   justify-content: flex-start;
+  margin-bottom: 30px;
 `;
 
 const FormContainer = styled.div`
@@ -97,7 +100,7 @@ const FormContainer = styled.div`
 const CardContainer = styled.div`
   margin-left: 0;
   max-width: 400px;
-  margin-right: 50px;
+  margin-right: 30px;
 `;
 
 const Form = styled.form`
@@ -138,9 +141,9 @@ const ExpiryContainer = styled.div`
 `;
 
 const ExpiryInput = styled(Input)`
-  width: 120px;
+  width: 180px;
 `;
 
 const CvcInput = styled(Input)`
-  width: 80px;
+  width: 100px;
 `;
