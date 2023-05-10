@@ -2,6 +2,7 @@ import React from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import styled from 'styled-components';
+import { Title } from './styled';
 
 export default class PaymentForm extends React.Component {
   state = {
@@ -142,14 +143,4 @@ const ExpiryInput = styled(Input)`
 
 const CvcInput = styled(Input)`
   width: 80px;
-`;
-
-const Title = styled.h1`
-  font-family: 'Roboto', sans-serif;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 23px;
-  text-align: left;
-  color: #8e8e8e;
-  margin-bottom: 20px;
 `;
