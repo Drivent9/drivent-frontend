@@ -1,5 +1,5 @@
 {
   "*.js": [
-    "npx eslint --fix"
+    "npx eslint --fix --no-error-on-unmatched-pattern"
   ]
 }
