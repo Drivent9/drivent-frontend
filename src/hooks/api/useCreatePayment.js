@@ -3,7 +3,7 @@ import useToken from '../useToken';
 
 import * as payment from '../../services/paymentApi.js';
 
-export default function useSaveEnrollment() {
+export default function useCreatePayment() {
   const token = useToken();
 
   const {
