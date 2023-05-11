@@ -3,8 +3,7 @@ import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import styled from 'styled-components';
 import { Title } from './styled';
-import ButtonTest from './Button';
-// import Button from '../Form/Button';
+import Button from '../Form/Button';
 
 export default class PaymentForm extends React.Component {
   state = {
@@ -21,11 +20,17 @@ export default class PaymentForm extends React.Component {
 
   handleInputChange = (e) => {
     const { name, value } = e.target;
-
     this.setState({ [name]: value });
   };
 
+  isFormValid = () => {
+    const { cvc, expiry, name, number } = this.state;
+    return cvc && expiry && name && number;
+  };
+
   render() {
+    const { nextStep } = this.props;
+    const isFormValid = this.isFormValid();
     return (
       <>
         <Title>Pagamento</Title>
@@ -49,6 +54,7 @@ export default class PaymentForm extends React.Component {
                   placeholder="Card Number"
                   onChange={this.handleInputChange}
                   onFocus={this.handleInputFocus}
+                  required
                 />
                 <ExCardNumber>E.g.: 49...,51...,36...,37...</ExCardNumber>
               </div>
@@ -59,6 +65,7 @@ export default class PaymentForm extends React.Component {
                 placeholder="Name"
                 onChange={this.handleInputChange}
                 onFocus={this.handleInputFocus}
+                required
               />
               <ExpiryContainer>
                 <ExpiryInput
@@ -67,6 +74,7 @@ export default class PaymentForm extends React.Component {
                   placeholder="Valid Thru"
                   onChange={this.handleInputChange}
                   onFocus={this.handleInputFocus}
+                  required
                 />
                 <CvcInput
                   type="tel"
@@ -74,13 +82,15 @@ export default class PaymentForm extends React.Component {
                   placeholder="CVC"
                   onChange={this.handleInputChange}
                   onFocus={this.handleInputFocus}
+                  required
                 />
               </ExpiryContainer>
             </Form>
           </FormContainer>
         </Container>
-        <ButtonTest />
-        {/* <Button type="submit">finalizar pagamento</Button> */}
+        <Button type="submit" onClick={nextStep} disabled={!isFormValid}>
+          finalizar pagamento
+        </Button>
       </>
     );
   }

@@ -7,7 +7,7 @@ export default function ChosenTicket() {
       <Title>Ingresso escolhido</Title>
       <ChosenTicketContainer>
         <h1>Presencial + Com Hotel</h1>
-        <h2>R$ 600</h2>
+        <h2>R$ 000,00</h2>
       </ChosenTicketContainer>
     </Container>
   );
