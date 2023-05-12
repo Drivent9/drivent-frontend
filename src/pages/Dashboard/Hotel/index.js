@@ -57,7 +57,7 @@ export default function Hotel() {
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      {tickets.TicketType.isRemote === true && (
+      {tickets.TicketType?.isRemote === true && (
         <MessageWhenTicketIsRemote>
           Sua modalidade de ingresso não inclui hospedagem
           <br />
