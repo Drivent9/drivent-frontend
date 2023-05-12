@@ -1,27 +1,40 @@
-import styled from 'styled-components';
+import { Title } from './styled.js';
 import { useState } from 'react';
-import { Title } from './styled';
+import styled from 'styled-components';
 
-export default function Booking({ setTotal, setDone }) {
-  const [clicked, setClicked] = useState(false);
+export default function TicketCard({ setPaymentStep, setTotal, setDone }) {
+  const [clicked, setClicked] = useState(0);
 
   function handleClick(item) {
     setClicked(item);
-    setTotal(250+item);
-    setDone(true);
+    setTotal(item);
   }
 
   return (
     <>
-      <Title>Ótimo! Agora escolha sua modalidade de hospedagem</Title>
+      <Title>Primeiro, escolha sua modalidade de ingresso</Title>
       <OptionsDiv>
-        <ChoiseCard clicked={clicked === 0} onClick={() => handleClick(0)}>
-          <h1>Sem Hotel</h1>
-          <span>+ R$ 0</span>
+        <ChoiseCard
+          clicked={clicked === 250}
+          onClick={() => {
+            handleClick(250);
+            setPaymentStep(6);
+            setDone(false);
+          }}
+        >
+          <h1>Presencial</h1>
+          <span>R$ 250</span>
         </ChoiseCard>
-        <ChoiseCard clicked={clicked === 350} onClick={() => handleClick(350)}>
-          <h1>Com Hotel</h1>
-          <span>+ R$ 350</span>
+        <ChoiseCard
+          clicked={clicked === 100}
+          onClick={() => {
+            handleClick(100);
+            setPaymentStep(5);
+            setDone(true);
+          }}
+        >
+          <h1>Online</h1>
+          <span>R$ 100</span>
         </ChoiseCard>
       </OptionsDiv>
     </>

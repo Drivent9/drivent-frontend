@@ -1,13 +1,13 @@
 import { Title } from './styled';
 import styled from 'styled-components';
 
-export default function ChosenTicket() {
+export default function ChosenTicket({ amount }) {
   return (
     <Container>
       <Title>Ingresso escolhido</Title>
       <ChosenTicketContainer>
         <h1>Presencial + Com Hotel</h1>
-        <h2>R$ 000,00</h2>
+        <h2>R$ {amount}</h2>
       </ChosenTicketContainer>
     </Container>
   );
@@ -15,13 +15,13 @@ export default function ChosenTicket() {
 
 const ChosenTicketContainer = styled.div`
   display: inline-block;
-  padding: 36px 60px 30px 60px;
+  padding: 36px 50px 30px 50px;
   background-color: #ffeed2;
   border-radius: 20px;
 
   h1 {
     font-family: 'Roboto', sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 400;
     line-height: 19px;
     text-align: center;
@@ -29,7 +29,7 @@ const ChosenTicketContainer = styled.div`
   }
   h2 {
     font-family: 'Roboto', sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
     line-height: 16px;
     text-align: center;

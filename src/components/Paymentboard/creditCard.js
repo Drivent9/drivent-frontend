@@ -29,7 +29,7 @@ export default class PaymentForm extends React.Component {
   };
 
   render() {
-    const { nextStep } = this.props;
+    const { setPaymentStep } = this.props;
     const isFormValid = this.isFormValid();
     return (
       <>
@@ -88,7 +88,7 @@ export default class PaymentForm extends React.Component {
             </Form>
           </FormContainer>
         </Container>
-        <Button type="submit" onClick={nextStep} disabled={!isFormValid}>
+        <Button type="submit" onClick={() => setPaymentStep(4)} disabled={!isFormValid}>
           finalizar pagamento
         </Button>
       </>

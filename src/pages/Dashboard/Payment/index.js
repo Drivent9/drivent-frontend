@@ -18,7 +18,7 @@ export default function Payment() {
       });
   }, []);
 
-  if (hasEnrollment) {
+  if (!hasEnrollment) {
     return (
       <>
         <PaymentDashBoard />

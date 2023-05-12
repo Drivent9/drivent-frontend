@@ -5,27 +5,34 @@ import ChosenTicket from './chosenTicket';
 import CompletedPayment from './completedPayment';
 import Booking from './booking';
 import { useState } from 'react';
+import TicketCard from './ticketCard.js';
+import Resume from './resume.js';
 
 export default function PaymentDashBoard() {
-  const [paymentStep, setPaymentStep] = useState(0);
-
-  function nextStep() {
-    setPaymentStep(paymentStep + 1);
-  }
+  const [paymentStep, setPaymentStep] = useState(5);
+  const [total, setTotal] = useState(250);
+  const [done, setDone] = useState(false);
 
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
 
-      {paymentStep === 0 && <Booking nextStep={nextStep} />}
-      {paymentStep === 1 && (
+      {paymentStep >= 5 && <TicketCard setPaymentStep={setPaymentStep} setTotal={setTotal} setDone={setDone} />}
+
+      {paymentStep >= 6 && (
+        <Booking setPaymentStep={setPaymentStep} setTotal={setTotal} total={total} setDone={setDone} />
+      )}
+
+      {done && <Resume setPaymentStep={setPaymentStep} amount={total} setDone={setDone}/>}
+
+      {paymentStep === 3 && (
         <>
-          <ChosenTicket /> <PaymentForm nextStep={nextStep} />
+          <ChosenTicket amount={total}/> <PaymentForm setPaymentStep={setPaymentStep} />
         </>
       )}
-      {paymentStep === 2 && (
+      {paymentStep === 4 && (
         <>
-          <ChosenTicket /> <CompletedPayment />
+          <ChosenTicket amount={total}/> <CompletedPayment />
         </>
       )}
     </>
