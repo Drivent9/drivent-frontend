@@ -1,100 +1,139 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import styled from 'styled-components';
 import { Title } from './styled';
 import Button from '../Form/Button';
+import { toast } from 'react-toastify';
+import useCreatePayment from '../../hooks/api/useCreatePayment';
+import InputMask from 'react-input-mask';
 
-export default class PaymentForm extends React.Component {
-  state = {
-    cvc: '',
-    expiry: '',
-    focus: '',
-    name: '',
-    number: '',
+function PaymentForm({ setPaymentStep, ticketId }) {
+  const [cvc, setCvc] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [focus, setFocus] = useState('');
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+  const [issuer, setIssuer] = useState('');
+  const { createPayment } = useCreatePayment();
+
+  const handleInputFocus = (e) => {
+    setFocus(e.target.name);
   };
 
-  handleInputFocus = (e) => {
-    this.setState({ focus: e.target.name });
-  };
+  async function postPayment() {
+    const data = {
+      ticketId,
+      cardData: {
+        issuer,
+        number,
+        name,
+        expirationDate: expiry,
+        cvv: cvc,
+      },
+    };
 
-  handleInputChange = (e) => {
+    console.log(data);
+
+    try {
+      await createPayment(data);
+      toast('Pagamento realizado com sucesso!');
+      setPaymentStep(4);
+    } catch (err) {
+      toast('Não foi possível realizar o pagamento!');
+      console.log(err);
+    }
+  }
+
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    this.setState({ [name]: value });
+    if (name === 'cvc') {
+      setCvc(value);
+    } else if (name === 'expiry') {
+      setExpiry(value);
+    } else if (name === 'name') {
+      setName(value);
+    } else if (name === 'number') {
+      setNumber(value);
+    }
   };
 
-  isFormValid = () => {
-    const { cvc, expiry, name, number } = this.state;
-    return cvc && expiry && name && number;
+  const isFormValid = () => {
+    return cvc.length && expiry && name && number;
   };
 
-  render() {
-    const { setPaymentStep } = this.props;
-    const isFormValid = this.isFormValid();
-    return (
-      <>
-        <Title>Pagamento</Title>
-        <Container id="PaymentForm">
-          <CardContainer>
-            <Cards
-              cvc={this.state.cvc}
-              expiry={this.state.expiry}
-              focused={this.state.focus}
-              name={this.state.name}
-              number={this.state.number}
-            />
-          </CardContainer>
+  const handleCardTypeChange = (cardType) => {
+    setIssuer(cardType.issuer);
+  };
 
-          <FormContainer>
-            <Form>
-              <div>
-                <Input
-                  type="tel"
-                  name="number"
-                  placeholder="Card Number"
-                  onChange={this.handleInputChange}
-                  onFocus={this.handleInputFocus}
-                  required
-                />
-                <ExCardNumber>E.g.: 49...,51...,36...,37...</ExCardNumber>
-              </div>
+  return (
+    <>
+      <Title>Pagamento</Title>
+      <Container id="PaymentForm">
+        <CardContainer>
+          <Cards
+            cvc={cvc}
+            expiry={expiry}
+            focused={focus}
+            name={name}
+            number={number}
+            callback={handleCardTypeChange}
+          />
+        </CardContainer>
 
+        <FormContainer>
+          <Form>
+            <div>
               <Input
-                type="text"
-                name="name"
-                placeholder="Name"
-                onChange={this.handleInputChange}
-                onFocus={this.handleInputFocus}
+                type="tel"
+                name="number"
+                placeholder="Card Number"
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+                mask="9999 9999 9999 9999"
                 required
               />
-              <ExpiryContainer>
-                <ExpiryInput
-                  type="tel"
-                  name="expiry"
-                  placeholder="Valid Thru"
-                  onChange={this.handleInputChange}
-                  onFocus={this.handleInputFocus}
-                  required
-                />
-                <CvcInput
-                  type="tel"
-                  name="cvc"
-                  placeholder="CVC"
-                  onChange={this.handleInputChange}
-                  onFocus={this.handleInputFocus}
-                  required
-                />
-              </ExpiryContainer>
-            </Form>
-          </FormContainer>
-        </Container>
-        <Button type="submit" onClick={() => setPaymentStep(4)} disabled={!isFormValid}>
-          finalizar pagamento
-        </Button>
-      </>
-    );
-  }
+              <ExCardNumber>E.g.: 49...,51...,36...,37...</ExCardNumber>
+            </div>
+
+            <Input
+              type="text"
+              name="name"
+              placeholder="Name"
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              required
+            />
+            <ExpiryContainer>
+              <ExpiryInput
+                type="tel"
+                name="expiry"
+                placeholder="Valid Thru"
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+                required
+                mask="99/99"
+              />
+              <CvcInput
+                type="tel"
+                name="cvc"
+                placeholder="CVC"
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+                required
+              />
+            </ExpiryContainer>
+          </Form>
+        </FormContainer>
+      </Container>
+      <Button type="submit" onClick={() => postPayment()} disabled={!isFormValid()}>
+        finalizar pagamento
+      </Button>
+    </>
+  );
 }
+
+export default PaymentForm;
 
 const Container = styled.div`
   display: flex;
@@ -123,7 +162,7 @@ const Form = styled.form`
   justify-content: space-between;
 `;
 
-const Input = styled.input`
+const Input = styled(InputMask)`
   width: 300px;
   height: 40px;
   padding: 10px;
