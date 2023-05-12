@@ -1,12 +1,12 @@
 import { Title } from './styled';
 import styled from 'styled-components';
 
-export default function ChosenTicket({ amount }) {
+export default function ChosenTicket({ amount, clickedType, haveHotel }) {
   return (
     <Container>
       <Title>Ingresso escolhido</Title>
       <ChosenTicketContainer>
-        <h1>Presencial + Com Hotel</h1>
+        <h1>{clickedType === 'Online' ? clickedType : clickedType + ' + ' + haveHotel}</h1>
         <h2>R$ {amount}</h2>
       </ChosenTicketContainer>
     </Container>

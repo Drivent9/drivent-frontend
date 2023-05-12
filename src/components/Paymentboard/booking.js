@@ -2,24 +2,25 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { Title } from './styled';
 
-export default function Booking({ setTotal, setDone }) {
+export default function Booking({ setTotal, setDone, setHaveHotel }) {
   const [clicked, setClicked] = useState(false);
 
-  function handleClick(item) {
+  function handleClick(item, type) {
     setClicked(item);
-    setTotal(250+item);
+    setTotal(250 + item);
     setDone(true);
+    setHaveHotel(type);
   }
 
   return (
     <>
       <Title>Ótimo! Agora escolha sua modalidade de hospedagem</Title>
       <OptionsDiv>
-        <ChoiseCard clicked={clicked === 0} onClick={() => handleClick(0)}>
+        <ChoiseCard clicked={clicked === 0} onClick={() => handleClick(0, 'Sem Hotel')}>
           <h1>Sem Hotel</h1>
           <span>+ R$ 0</span>
         </ChoiseCard>
-        <ChoiseCard clicked={clicked === 350} onClick={() => handleClick(350)}>
+        <ChoiseCard clicked={clicked === 350} onClick={() => handleClick(350, 'Com Hotel')}>
           <h1>Com Hotel</h1>
           <span>+ R$ 350</span>
         </ChoiseCard>
