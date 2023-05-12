@@ -4,8 +4,17 @@ import { useContext } from 'react';
 import UserContext from '../../../contexts/UserContext';
 import { getTickets } from '../../../services/ticketApi';
 import { useEffect, useState } from 'react';
-
+import { Title } from '../../../components/Paymentboard/styled';
+import HotelCard from '../../../components/Hotels/HotelCard';
 export default function Hotel() {
+  if(1) {
+    return (<>
+      <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
+      <Title>Primeiro, escolha seu hotel</Title>
+      <HotelsCardsContainer><HotelCard/><HotelCard/><HotelCard/></HotelsCardsContainer>
+    </>
+    );
+  }
   const { userData } = useContext(UserContext);
   const [tickets, setTickets] = useState(null);
   const [error, setError] = useState(null);
@@ -75,4 +84,26 @@ const MessageWhenTicketIsNotPaid = styled.p`
   text-align: center;
   color: #8e8e8e;
   margin-top: 240px;
+`;
+
+const HotelsCardsContainer = styled.div`
+  width: 100%;
+  overflow-x:scroll;
+  display:flex;
+  scrollbar-width: thin;
+  scrollbar-color: #dcdcdc #f5f5f5;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #dcdcdc;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #FFFFFF;
+  }
 `;
