@@ -6,38 +6,53 @@ import { getTickets } from '../../../services/ticketApi';
 import { useEffect, useState } from 'react';
 import { Title } from '../../../components/Paymentboard/styled';
 import HotelCard from '../../../components/Hotels/HotelCard';
+import { getHotels } from '../../../services/hotelApi';
 export default function Hotel() {
-  if(1) {
-    return (<>
-      <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      <Title>Primeiro, escolha seu hotel</Title>
-      <HotelsCardsContainer><HotelCard/><HotelCard/><HotelCard/></HotelsCardsContainer>
-    </>
-    );
-  }
   const { userData } = useContext(UserContext);
-  const [tickets, setTickets] = useState(null);
+  const [tickets, setTickets] = useState([{}]);
   const [error, setError] = useState(null);
+  // const [hotels, setHotels] = useState(null);
 
   async function getTicket() {
     try {
       const response = await getTickets(userData.token);
-      if (response.ok) {
-        setTickets(response.data);
-      }
+      setTickets(response.data);
     } catch (err) {
       console.log(err);
       setError('Something went wrong. Please, try again.');
     }
   }
 
+  // async function getHotel() {
+  //   try {
+  //     const response = await getHotels(userData.token);
+  //     setHotels(response.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //     setError('Something went wrong. Please, try again.');
+  //   }
+  // }
+
   useEffect(() => {
     getTicket();
-  }, [userData.token]);
+  }, []);
 
   if (error) {
     return <p>{error}</p>;
   }
+
+  // if (1) {
+  //   return (
+  //     <>
+  //       <Title>Primeiro, escolha seu hotel</Title>
+  //       <HotelsCardsContainer>
+  //         <HotelCard />
+  //         <HotelCard />
+  //         <HotelCard />
+  //       </HotelsCardsContainer>
+  //     </>
+  //   );
+  // }
 
   return (
     <>
@@ -88,8 +103,8 @@ const MessageWhenTicketIsNotPaid = styled.p`
 
 const HotelsCardsContainer = styled.div`
   width: 100%;
-  overflow-x:scroll;
-  display:flex;
+  overflow-x: scroll;
+  display: flex;
   scrollbar-width: thin;
   scrollbar-color: #dcdcdc #f5f5f5;
 
@@ -104,6 +119,6 @@ const HotelsCardsContainer = styled.div`
   }
 
   &::-webkit-scrollbar-track {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
 `;
