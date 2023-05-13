@@ -1,12 +1,61 @@
 import styled from 'styled-components';
 
-export default function HotelCard() {
+import { useContext } from 'react';
+import UserContext from '../../contexts/UserContext';
+import { useEffect, useState } from 'react';
+import { getHotelsWithRooms } from '../../services/hotelApi';
+
+export default function HotelCard(props) {
+  const { id, name, image } = props;
+  const [types, setTypes] = useState('');
+  const { userData } = useContext(UserContext);
+  const [error, setError] = useState(null);
+  const [room, setRoom] = useState(null);
+  useEffect(getHotelWithRoom, []);
+  
+  async function getHotelWithRoom() {
+    try {
+      const response = await getHotelsWithRooms(userData.token, id);
+      setRoom(response.data);
+      defineType(response.data.Rooms);
+    } catch (err) {
+      console.log(err);
+      setError('Something went wrong. Please, try again.');
+    }
+  }
+
+  function defineType(arrayOfRooms) {
+    const arrayOfTypes = [];
+    const arrayOfCapacities = arrayOfRooms.map((i) => i.capacity);
+    if(arrayOfCapacities.includes(1)) {
+      arrayOfTypes.push('Single');
+    }
+    if(arrayOfCapacities.includes(2)) {
+      arrayOfTypes.push('Double');
+    }
+    if(arrayOfCapacities.includes(3)) {
+      arrayOfTypes.push('Triple');
+    }
+    if(arrayOfTypes.length === 1) {
+      setTypes(arrayOfTypes[0]);
+    } else if(arrayOfTypes.length === 3) {
+      setTypes('Single, Double e Triple');
+    } else {
+      setTypes(`${arrayOfTypes[0]} e ${arrayOfTypes[1]}`);
+    }
+    return;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   return (<>
     <HotelCardStyled>
-      <img src='https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg' alt='hotelpicture'/>
-      <h1>Driven Resort</h1>
-      <p><strong>Tipos de acomodação</strong><br/>Single e Double</p>
-      <p><strong>Vagas disponíveis:</strong><br/>103</p>
+      <img src={image} alt='hotelpicture'/>
+      <h1>{name}</h1>
+      <p><strong>Tipos de acomodação</strong><br/>{types}</p>
+      <p><strong>Vagas disponíveis:</strong><br/>{room?.Rooms.length}</p>
     </HotelCardStyled>
   </>);
 }

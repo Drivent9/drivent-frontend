@@ -13,18 +13,20 @@ import HotelRooms from '../../../components/Hotels/HotelRooms';
 export default function Hotel() {
   const { userData } = useContext(UserContext);
   const [error, setError] = useState(null);
-  // const [hotels, setHotels] = useState(null);
+  const [hotels, setHotels] = useState(null);
   const { ticket } = useTicket(); // faz get no ticket
+  console.log(hotels);
+  useEffect(getHotel, []);
 
-  // async function getHotel() {
-  //   try {
-  //     const response = await getHotels(userData.token);
-  //     setHotels(response.data);
-  //   } catch (err) {
-  //     console.log(err);
-  //     setError('Something went wrong. Please, try again.');
-  //   }
-  // }
+  async function getHotel() {
+    try {
+      const response = await getHotels(userData.token);
+      setHotels(response.data);
+    } catch (err) {
+      console.log(err);
+      setError('Something went wrong. Please, try again.');
+    }
+  }
 
   if (error) {
     return <p>{error}</p>;
@@ -51,9 +53,7 @@ export default function Hotel() {
         <>
           <Title>Primeiro, escolha seu hotel</Title>
           <HotelsCardsContainer>
-            <HotelCard />
-            <HotelCard />
-            <HotelCard />
+            {hotels?.map((i) => <HotelCard key={i.id} id={i.id} name={i.name} image={i.image}/>)}
           </HotelsCardsContainer>
 
           <HotelRooms />
