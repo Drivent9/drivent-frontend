@@ -1,7 +1,11 @@
 import { Title } from './styled';
 import styled from 'styled-components';
 
-export default function ChosenTicket({ amount, clickedType, haveHotel }) {
+export default function ChosenTicket({ amount, clickedType, haveHotel, ticketTypeId, ticketTypes }) {
+  // remover amount, clickedType, haveHotel e usar as informações vindas do ticketTypeId, ticketTypes
+  // usar for para percorrer o ticketTypes.id e comparar com o ticketTypeId para retornar
+  // apagar os props (amount, clickedType, haveHotel) no index
+
   return (
     <Container>
       <Title>Ingresso escolhido</Title>
