@@ -21,10 +21,10 @@ export default function HotelRooms() {
             <FilledIcon />
           </IconContainer>
         </Rooms>
-        <Rooms color={'#E9E9E9'}>
+        <Rooms color={'#E9E9E9'} colorLetter={'#9D9D9D'}>
           <h1>101</h1>
           <IconContainer>
-            <FilledIcon props={'#8C8C8C'} />
+            <FilledIcon colorIcon={'#8C8C8C'} />
           </IconContainer>
         </Rooms>
       </RoomsContainer>
@@ -57,7 +57,7 @@ const Rooms = styled.div`
     font-weight: 700;
     line-height: 23px;
     margin: 11px 0px 11px 16px;
-    color: #454545;
+    color: ${(props) => props.colorLetter || '#454545'};
   }
 `;
 
@@ -70,7 +70,7 @@ const Icon = styled(HiOutlineUser)`
 `;
 
 const FilledIcon = styled(HiOutlineUser)`
-  fill: ${(props) => props.props || '#000'};
-  color: ${(props) => props.props};
+  fill: ${(props) => props.colorIcon || '#000'};
+  color: ${(props) => props.colorIcon};
   font-size: 22px;
 `;
