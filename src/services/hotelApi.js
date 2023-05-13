@@ -7,7 +7,7 @@ export async function getHotels(token) {
     },
   });
 
-  return response;
+  return response.data;
 }
 
 export async function getHotelsWithRooms(token, id) {

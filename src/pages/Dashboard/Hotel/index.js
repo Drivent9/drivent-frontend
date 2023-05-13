@@ -1,32 +1,19 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
-import { useContext } from 'react';
-import UserContext from '../../../contexts/UserContext';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Title } from '../../../components/Paymentboard/styled';
 import HotelCard from '../../../components/Hotels/HotelCard';
-import { getHotels } from '../../../services/hotelApi';
-
 import useTicket from '../../../hooks/api/useTicket';
 import HotelRooms from '../../../components/Hotels/HotelRooms';
+import useHotels from '../../../hooks/api/userHotels';
 
 export default function Hotel() {
-  const { userData } = useContext(UserContext);
   const [error, setError] = useState(null);
-  const [hotels, setHotels] = useState(null);
-  const { ticket } = useTicket(); // faz get no ticket
-  console.log(hotels);
-  useEffect(getHotel, []);
+  // const [hotels, setHotels] = useState(null);
+  const { ticket } = useTicket();
 
-  async function getHotel() {
-    try {
-      const response = await getHotels(userData.token);
-      setHotels(response.data);
-    } catch (err) {
-      console.log(err);
-      setError('Something went wrong. Please, try again.');
-    }
-  }
+  const { hotels } = useHotels(); //faz o mesmo que o a função getHotel abaixo so que simplificado
+  console.log(hotels); //console para testes
 
   if (error) {
     return <p>{error}</p>;
@@ -42,13 +29,14 @@ export default function Hotel() {
           Prossiga para a escolha de atividades
         </MessageWhenTicketIsRemote>
       )}
-      {ticket?.status === 'RESERVED' && (
-        <MessageWhenTicketIsNotPaid>
-          Você precisa ter confirmado pagamento antes
-          <br />
-          de fazer a escolha de hospedagem
-        </MessageWhenTicketIsNotPaid>
-      )}
+      {ticket?.status === 'RESERVED' ||
+        (ticket === null && (
+          <MessageWhenTicketIsNotPaid>
+            Você precisa ter confirmado pagamento antes
+            <br />
+            de fazer a escolha de hospedagem
+          </MessageWhenTicketIsNotPaid>
+        ))}
       {ticket?.status === 'PAID' && (
         <>
           <Title>Primeiro, escolha seu hotel</Title>
