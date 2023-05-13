@@ -9,17 +9,21 @@ import { getHotels } from '../../../services/hotelApi';
 
 import useTicket from '../../../hooks/api/useTicket';
 import HotelRooms from '../../../components/Hotels/HotelRooms';
+import useHotels from '../../../hooks/api/userHotels';
 
 export default function Hotel() {
   const { userData } = useContext(UserContext);
   const [error, setError] = useState(null);
   // const [hotels, setHotels] = useState(null);
-  const { ticket } = useTicket(); // faz get no ticket
+  const { ticket } = useTicket();
+
+  const { hotels } = useHotels(); //faz o mesmo que o a função getHotel abaixo so que simplificado
+  console.log(hotels); //console para testes
 
   // async function getHotel() {
   //   try {
   //     const response = await getHotels(userData.token);
-  //     setHotels(response.data);
+  //     setHotels(response);
   //   } catch (err) {
   //     console.log(err);
   //     setError('Something went wrong. Please, try again.');
@@ -40,13 +44,14 @@ export default function Hotel() {
           Prossiga para a escolha de atividades
         </MessageWhenTicketIsRemote>
       )}
-      {ticket?.status === 'RESERVED' && (
-        <MessageWhenTicketIsNotPaid>
-          Você precisa ter confirmado pagamento antes
-          <br />
-          de fazer a escolha de hospedagem
-        </MessageWhenTicketIsNotPaid>
-      )}
+      {ticket?.status === 'RESERVED' ||
+        (ticket === null && (
+          <MessageWhenTicketIsNotPaid>
+            Você precisa ter confirmado pagamento antes
+            <br />
+            de fazer a escolha de hospedagem
+          </MessageWhenTicketIsNotPaid>
+        ))}
       {ticket?.status === 'PAID' && (
         <>
           <Title>Primeiro, escolha seu hotel</Title>
