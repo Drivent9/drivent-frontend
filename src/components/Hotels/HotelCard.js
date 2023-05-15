@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import { useContext } from 'react';
 import UserContext from '../../contexts/UserContext';
 import { useEffect, useState } from 'react';
@@ -61,22 +60,22 @@ export default function HotelCard(props) {
 }
 
 const HotelCardStyled = styled.div`
-    display:flex;
-    flex-direction:column;
-    background: #EBEBEB;
-    border-radius: 10px;
-    padding:14px;
-    height:264px;
-    margin-right:20px;
-    margin-bottom:5px;
+  display: flex;
+  flex-direction: column;
+  background: #ebebeb;
+  border-radius: 10px;
+  padding: 14px;
+  height: 264px;
+  margin-right: 20px;
+  margin-bottom: 5px;
   > p {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
     line-height: 20px;
-    color: #3C3C3C;
-    margin-bottom:5px;
+    color: #3c3c3c;
+    margin-bottom: 5px;
   }
 
   > h1 {
@@ -86,7 +85,7 @@ const HotelCardStyled = styled.div`
     font-size: 20px;
     line-height: 23px;
     color: #343434;
-    margin-block:10px;
+    margin-block: 10px;
   }
 
   > strong {
@@ -95,8 +94,8 @@ const HotelCardStyled = styled.div`
   > img {
     width: 168px;
     height: 109px;
-    object-fit:cover;
+    object-fit: cover;
     border-radius: 5px;
-    margin-inline:auto;
+    margin-inline: auto;
   }
 `;
