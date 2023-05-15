@@ -2,14 +2,14 @@ import { Title } from './styled.js';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function TicketCard({ setPaymentStep, setTotal, setDone, setClickedType }) {
+export default function TicketCard({ setPaymentStep, setTotal, setDone, ticketTypes }) {
   const [clicked, setClicked] = useState(0);
 
-  function handleClick(item, type) {
-    setClicked(item);
-    setTotal(item);
-    setClickedType(type);
+  function handleClick(amount) {
+    setClicked(amount);
+    setTotal(amount);
   }
+  console.log(ticketTypes);
 
   return (
     <>
@@ -18,18 +18,18 @@ export default function TicketCard({ setPaymentStep, setTotal, setDone, setClick
         <ChoiseCard
           clicked={clicked === 250}
           onClick={() => {
-            handleClick(250, 'Presencial');
+            handleClick(250);
             setPaymentStep(6);
             setDone(false);
           }}
         >
-          <h1>Presencial</h1>
+          <h1>{ticketTypes}</h1>
           <span>R$ 250</span>
         </ChoiseCard>
         <ChoiseCard
           clicked={clicked === 100}
           onClick={() => {
-            handleClick(100, 'Online');
+            handleClick(100);
             setPaymentStep(5);
             setDone(true);
           }}

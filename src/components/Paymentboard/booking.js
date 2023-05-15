@@ -2,14 +2,13 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { Title } from './styled';
 
-export default function Booking({ setTotal, setDone, setHaveHotel }) {
+export default function Booking({ setTotal, setDone }) {
   const [clicked, setClicked] = useState(false);
 
-  function handleClick(item, type) {
-    setClicked(item);
-    setTotal(250 + item);
+  function handleClick(amount) {
+    setClicked(amount);
+    setTotal(250 + amount);
     setDone(true);
-    setHaveHotel(type);
   }
 
   return (
