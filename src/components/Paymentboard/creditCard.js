@@ -33,15 +33,12 @@ function PaymentForm({ setPaymentStep, ticketId }) {
       },
     };
 
-    console.log(data);
-
     try {
       await createPayment(data);
       toast('Pagamento realizado com sucesso!');
       setPaymentStep(4);
     } catch (err) {
       toast('Não foi possível realizar o pagamento!');
-      console.log(err);
     }
   }
 
