@@ -7,19 +7,18 @@ export default function Resume({ setPaymentStep, amount, setDone, ticketTypeId }
   const { createTicket } = useCreateTicket();
 
   async function postTicket() {
-    const data = {
-      ticketTypeId,
-    };
-
-    try {
-      await createTicket(data);
-      toast('Ticket registrado com sucesso');
-      setPaymentStep(3);
-      setDone(false);
-    } catch (err) {
-      toast('Não foi possível registrar o ticket!');
-    }
+    setPaymentStep(3);
+    setDone(false);
   }
+
+  // try {
+  //   await createTicket(data);
+  //   toast('Ticket registrado com sucesso');
+  //   setPaymentStep(3);
+  //   setDone(false);
+  // } catch (err) {
+  //   toast('Não foi possível registrar o ticket!');
+  // }
 
   return (
     <>

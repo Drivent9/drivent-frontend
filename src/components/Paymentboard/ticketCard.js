@@ -2,14 +2,13 @@ import { Title } from './styled.js';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function TicketCard({ setPaymentStep, setTotal, setDone, ticketTypes }) {
+export default function TicketCard({ setPaymentStep, setTotal, setDone, ticketName1 }) {
   const [clicked, setClicked] = useState(0);
 
   function handleClick(amount) {
     setClicked(amount);
     setTotal(amount);
   }
-  console.log(ticketTypes);
 
   return (
     <>
@@ -23,7 +22,7 @@ export default function TicketCard({ setPaymentStep, setTotal, setDone, ticketTy
             setDone(false);
           }}
         >
-          <h1>{ticketTypes}</h1>
+          <h1>Presencial</h1>
           <span>R$ 250</span>
         </ChoiseCard>
         <ChoiseCard

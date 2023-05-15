@@ -9,20 +9,27 @@ import TicketCard from './ticketCard.js';
 import Resume from './resume.js';
 import useTicket from '../../hooks/api/useTicket';
 import { useEffect } from 'react';
+import useTicketTypes from '../../hooks/api/useTicketTypes';
 
 export default function PaymentDashBoard() {
   const [paymentStep, setPaymentStep] = useState(5);
   const [total, setTotal] = useState(250);
   const [done, setDone] = useState(false);
+  const [ticketTypeId, setTicketTypeId] = useState();
   const { ticket } = useTicket(); //get Tickets
+  const { ticketTypes, getTicketTypes } = useTicketTypes();
+  const [props, setProps] = useState();
+  // const [reRender, setReRender] = useState(false);
+
+  console.log(ticketTypes);
 
   useEffect(() => {
-    if (ticket?.status === 'PAID') {
-      setPaymentStep(4);
-    }
-    else if (ticket?.status === 'RESERVED') {
-      setPaymentStep(3);
-    }
+    // if (ticket?.status === 'PAID') {
+    //   setPaymentStep(4);
+    // } 
+    // else if (ticket?.status === 'RESERVED') {
+    //   setPaymentStep(3);
+    // }
   }, [ticket?.status]);
 
   return (
@@ -34,6 +41,14 @@ export default function PaymentDashBoard() {
           setPaymentStep={setPaymentStep}
           setTotal={setTotal}
           setDone={setDone}
+          ticketTypes={ticketTypes}
+          ticketName1={ticketTypes ? ticketTypes[0].name : 'Presencial'}
+          ticketName2={ticketTypes ? ticketTypes[1].name : 'Online'}
+          ticketPrice1={ticketTypes ? ticketTypes[0].price : 250}
+          ticketPrice2={ticketTypes ? ticketTypes[1].price : 100}
+          ticketId1={ticketTypes ? ticketTypes[0].id: 0}
+          ticketId2={ticketTypes ? ticketTypes[1].id: 1}
+          setTicketTypeId={setTicketTypeId}
         />
       )}
 
@@ -43,23 +58,27 @@ export default function PaymentDashBoard() {
           setTotal={setTotal}
           total={total}
           setDone={setDone}
+          ticketTypes={props}
+          ticketName1={ticketTypes ? ticketTypes[1].isRemote : true}
+          ticketName2={ticketTypes ? ticketTypes[2].isRemote : true}
+          ticketPrice1={ticketTypes ? ticketTypes[1].price : 0}
+          ticketPrice2={ticketTypes ? ticketTypes[2].price : 350}
+          ticketId1={ticketTypes ? ticketTypes[1].id: 1}
+          ticketId2={ticketTypes ? ticketTypes[2].id: 2}
         />
       )}
 
-      {done && <Resume setPaymentStep={setPaymentStep} amount={total} setDone={setDone} />}
+      {done && <Resume setPaymentStep={setPaymentStep} amount={total} setDone={setDone} ticketTypeId={ticketTypeId} />}
 
       {paymentStep === 3 && (
         <>
-          <ChosenTicket
-            ticketType={ticket?.TicketType}
-          />
+          <ChosenTicket ticketType={ticket?.TicketType} />
           <PaymentForm setPaymentStep={setPaymentStep} ticketId={ticket?.id} />
         </>
       )}
       {paymentStep === 4 && (
         <>
-          <ChosenTicket ticketType={ticket?.TicketType} />{' '}
-          <CompletedPayment />
+          <ChosenTicket ticketType={ticket?.TicketType} /> <CompletedPayment />
         </>
       )}
     </>
