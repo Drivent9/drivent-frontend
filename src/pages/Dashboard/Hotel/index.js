@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
+import { useState } from 'react';
 import { Title } from '../../../components/Paymentboard/styled';
 import HotelCard from '../../../components/Hotels/HotelCard';
 import useTicket from '../../../hooks/api/useTicket';
@@ -36,9 +37,7 @@ export default function Hotel() {
         <>
           <Title>Primeiro, escolha seu hotel</Title>
           <HotelsCardsContainer>
-            {hotels?.map((hotel) => {
-              return <HotelCard key={hotel.id} hotel={hotel}></HotelCard>;
-            })}
+            {hotels?.map((i) => <HotelCard key={i.id} id={i.id} name={i.name} image={i.image}/>)}
           </HotelsCardsContainer>
           <HotelRooms />
         </>

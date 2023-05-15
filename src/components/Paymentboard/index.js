@@ -57,7 +57,7 @@ export default function PaymentDashBoard() {
             amount={total}
             clickedType={clickedType}
             haveHotel={haveHotel}
-            ticketTypeId={ticket.ticketTypeId}
+            ticketTypeId={ticket?.ticketTypeId}
             ticketTypes={ticketTypes}
           />
           <PaymentForm setPaymentStep={setPaymentStep} ticketId={ticket?.id} />
@@ -65,7 +65,7 @@ export default function PaymentDashBoard() {
       )}
       {paymentStep === 4 && (
         <>
-          <ChosenTicket amount={total} ticketTypeId={ticket.ticketTypeId} ticketTypes={ticketTypes} />{' '}
+          <ChosenTicket amount={total} ticketTypeId={ticket?.ticketTypeId} ticketTypes={ticketTypes} />{' '}
           <CompletedPayment />
         </>
       )}
