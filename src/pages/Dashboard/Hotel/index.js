@@ -5,10 +5,12 @@ import HotelCard from '../../../components/Hotels/HotelCard';
 import useTicket from '../../../hooks/api/useTicket';
 import HotelRooms from '../../../components/Hotels/HotelRooms';
 import useHotels from '../../../hooks/api/useHotels';
+import { useState } from 'react';
 
 export default function Hotel() {
   const { ticket, ticketError } = useTicket();
   const { hotels, hotelsError } = useHotels();
+  const [clickedHotel, setClickedHotel] = useState(0);
 
   if (ticketError || hotelsError) {
     return <p>Something went wrong, please, try again.</p>;
@@ -36,9 +38,12 @@ export default function Hotel() {
         <>
           <Title>Primeiro, escolha seu hotel</Title>
           <HotelsCardsContainer>
-            {hotels?.map((i) => <HotelCard key={i.id} id={i.id} name={i.name} image={i.image}/>)}
+            {hotels?.map((i) => (
+              <HotelCard key={i.id} id={i.id} name={i.name} image={i.image} setClickedHotel={setClickedHotel} />
+            ))}
           </HotelsCardsContainer>
-          <HotelRooms />
+          {}
+          <HotelRooms clickedHotel={clickedHotel} hotels={hotels} />
         </>
       )}
     </>

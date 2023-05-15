@@ -1,32 +1,45 @@
 import styled from 'styled-components';
 import { Title } from '../Paymentboard/styled';
 import { HiOutlineUser } from 'react-icons/hi';
+import useHotelRooms from '../../hooks/api/useHotelsRooms';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
-export default function HotelRooms() {
+export default function HotelRooms({ clickedHotel }) {
+  const { hotelsRooms, getHotelsRooms } = useHotelRooms(clickedHotel);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+
+  useEffect(() => {
+    getHotelsRooms(clickedHotel);
+  }, [clickedHotel]);
+
+  if (!hotelsRooms || !hotelsRooms.Rooms) {
+    return <p></p>;
+  }
+
+  const sortedRooms = [...hotelsRooms.Rooms].sort((a, b) => a.name.localeCompare(b.name));
+
+  const handleRoomClick = (roomId) => {
+    setSelectedRoom(roomId === selectedRoom ? null : roomId);
+  };
+
   return (
     <Container>
       <Title>Ótima pedida! Agora escolha seu quarto:</Title>
       <RoomsContainer>
-        <Rooms>
-          <h1>101</h1>
-          <IconContainer>
-            <Icon />
-            <FilledIcon />
-          </IconContainer>
-        </Rooms>
-        <Rooms>
-          <h1>101</h1>
-          <IconContainer>
-            <Icon />
-            <FilledIcon />
-          </IconContainer>
-        </Rooms>
-        <Rooms color={'#E9E9E9'} colorLetter={'#9D9D9D'}>
-          <h1>101</h1>
-          <IconContainer>
-            <FilledIcon colorIcon={'#8C8C8C'} />
-          </IconContainer>
-        </Rooms>
+        {sortedRooms.map((room) => (
+          <Rooms key={room.id} clicked={room.id === selectedRoom} onClick={() => handleRoomClick(room.id)}>
+            <h1>{room.name}</h1>
+            <IconContainer>
+              {Array.from({ length: room.capacity }, (_, index) => (
+                <Icon
+                  key={index}
+                  selectedColor={room.id === selectedRoom && index === room.capacity - 1 ? '#FF4791' : undefined}
+                />
+              ))}
+            </IconContainer>
+          </Rooms>
+        ))}
       </RoomsContainer>
     </Container>
   );
@@ -50,7 +63,7 @@ const Rooms = styled.div`
   margin-right: 17px;
   margin-bottom: 8px;
   display: flex;
-  background-color: ${(props) => props.color};
+  background-color: ${(props) => (props.clicked ? '#FFEED2' : '#ffffff')};
   h1 {
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
@@ -67,6 +80,8 @@ const IconContainer = styled.div`
 
 const Icon = styled(HiOutlineUser)`
   font-size: 22px;
+  color: ${(props) => props.selectedColor};
+  fill: ${(props) => props.selectedColor};
 `;
 
 const FilledIcon = styled(HiOutlineUser)`

@@ -5,18 +5,18 @@ import { useEffect, useState } from 'react';
 import { getHotelsWithRooms } from '../../services/hotelApi';
 
 export default function HotelCard(props) {
-  const { id, name, image } = props;
+  const { id, name, image, setClickedHotel } = props;
   const [types, setTypes] = useState('');
   const { userData } = useContext(UserContext);
   const [error, setError] = useState(null);
   const [room, setRoom] = useState(null);
   useEffect(getHotelWithRoom, []);
-  
+
   async function getHotelWithRoom() {
     try {
       const response = await getHotelsWithRooms(userData.token, id);
-      setRoom(response.data);
-      defineType(response.data.Rooms);
+      setRoom(response);
+      defineType(response.Rooms);
     } catch (err) {
       console.log(err);
       setError('Something went wrong. Please, try again.');
@@ -26,18 +26,18 @@ export default function HotelCard(props) {
   function defineType(arrayOfRooms) {
     const arrayOfTypes = [];
     const arrayOfCapacities = arrayOfRooms.map((i) => i.capacity);
-    if(arrayOfCapacities.includes(1)) {
+    if (arrayOfCapacities.includes(1)) {
       arrayOfTypes.push('Single');
     }
-    if(arrayOfCapacities.includes(2)) {
+    if (arrayOfCapacities.includes(2)) {
       arrayOfTypes.push('Double');
     }
-    if(arrayOfCapacities.includes(3)) {
+    if (arrayOfCapacities.includes(3)) {
       arrayOfTypes.push('Triple');
     }
-    if(arrayOfTypes.length === 1) {
+    if (arrayOfTypes.length === 1) {
       setTypes(arrayOfTypes[0]);
-    } else if(arrayOfTypes.length === 3) {
+    } else if (arrayOfTypes.length === 3) {
       setTypes('Single, Double e Triple');
     } else {
       setTypes(`${arrayOfTypes[0]} e ${arrayOfTypes[1]}`);
@@ -49,14 +49,28 @@ export default function HotelCard(props) {
     return <p>{error}</p>;
   }
 
-  return (<>
-    <HotelCardStyled>
-      <img src={image} alt='hotelpicture'/>
-      <h1>{name}</h1>
-      <p><strong>Tipos de acomodação</strong><br/>{types}</p>
-      <p><strong>Vagas disponíveis:</strong><br/>{room?.Rooms.length}</p>
-    </HotelCardStyled>
-  </>);
+  function hotelCliked() {
+    setClickedHotel(id);
+  }
+
+  return (
+    <>
+      <HotelCardStyled onClick={hotelCliked}>
+        <img src={image} alt="hotelpicture" />
+        <h1>{name}</h1>
+        <p>
+          <strong>Tipos de acomodação</strong>
+          <br />
+          {types}
+        </p>
+        <p>
+          <strong>Vagas disponíveis:</strong>
+          <br />
+          {room?.Rooms.length}
+        </p>
+      </HotelCardStyled>
+    </>
+  );
 }
 
 const HotelCardStyled = styled.div`

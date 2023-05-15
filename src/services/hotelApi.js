@@ -17,5 +17,5 @@ export async function getHotelsWithRooms(token, id) {
     },
   });
 
-  return response;
+  return response.data;
 }
