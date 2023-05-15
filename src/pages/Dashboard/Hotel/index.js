@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
-import { useState } from 'react';
 import { Title } from '../../../components/Paymentboard/styled';
 import HotelCard from '../../../components/Hotels/HotelCard';
 import useTicket from '../../../hooks/api/useTicket';
