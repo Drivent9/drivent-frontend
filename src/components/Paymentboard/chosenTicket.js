@@ -1,7 +1,7 @@
 import { Title } from './styled';
 import styled from 'styled-components';
 
-export default function ChosenTicket({ amount, clickedType, haveHotel, ticketTypeId, ticketTypes }) {
+export default function ChosenTicket({ amount, clickedType, haveHotel, ticketTypeId, ticketType }) {
   // remover amount, clickedType, haveHotel e usar as informações vindas do ticketTypeId, ticketTypes
   // usar for para percorrer o ticketTypes.id e comparar com o ticketTypeId para retornar
   // apagar os props (amount, clickedType, haveHotel) no index
@@ -10,8 +10,14 @@ export default function ChosenTicket({ amount, clickedType, haveHotel, ticketTyp
     <Container>
       <Title>Ingresso escolhido</Title>
       <ChosenTicketContainer>
-        <h1>{clickedType === 'Online' ? clickedType : clickedType + ' + ' + haveHotel}</h1>
-        <h2>R$ {amount}</h2>
+        <h1>
+          {ticketType?.isRemote === true ? 'Online'
+            : ticketType?.includesHotel === true ?
+              'Presencial + Com Hotel'
+              : 'Presencial + Sem Hotel'
+          }
+        </h1>
+        <h2>R$ {ticketType?.price}</h2>
       </ChosenTicketContainer>
     </Container>
   );

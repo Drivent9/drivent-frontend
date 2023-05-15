@@ -24,6 +24,9 @@ export default function PaymentDashBoard() {
     if (ticket?.status === 'PAID') {
       setPaymentStep(4);
     }
+    else if (ticket?.status === 'RESERVED') {
+      setPaymentStep(3);
+    }
   }, [ticket?.status]);
 
   return (
@@ -58,14 +61,14 @@ export default function PaymentDashBoard() {
             clickedType={clickedType}
             haveHotel={haveHotel}
             ticketTypeId={ticket?.ticketTypeId}
-            ticketTypes={ticketTypes}
+            ticketType={ticket?.TicketType}
           />
           <PaymentForm setPaymentStep={setPaymentStep} ticketId={ticket?.id} />
         </>
       )}
       {paymentStep === 4 && (
         <>
-          <ChosenTicket amount={total} ticketTypeId={ticket?.ticketTypeId} ticketTypes={ticketTypes} />{' '}
+          <ChosenTicket amount={total} ticketTypeId={ticket?.ticketTypeId} ticketType={ticket?.TicketType} />{' '}
           <CompletedPayment />
         </>
       )}
