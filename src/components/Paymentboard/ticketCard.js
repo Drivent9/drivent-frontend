@@ -2,7 +2,7 @@ import { Title } from './styled.js';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function TicketCard({ setPaymentStep, setTotal, setDone, ticketName1 }) {
+export default function TicketCard({ setPaymentStep, setTotal, setDone, ticketName1, ticketTypes }) {
   const [clicked, setClicked] = useState(0);
 
   function handleClick(amount) {
@@ -14,28 +14,34 @@ export default function TicketCard({ setPaymentStep, setTotal, setDone, ticketNa
     <>
       <Title>Primeiro, escolha sua modalidade de ingresso</Title>
       <OptionsDiv>
-        <ChoiseCard
-          clicked={clicked === 250}
-          onClick={() => {
-            handleClick(250);
-            setPaymentStep(6);
-            setDone(false);
-          }}
-        >
-          <h1>Presencial</h1>
-          <span>R$ 250</span>
-        </ChoiseCard>
-        <ChoiseCard
-          clicked={clicked === 100}
-          onClick={() => {
-            handleClick(100);
-            setPaymentStep(5);
-            setDone(true);
-          }}
-        >
-          <h1>Online</h1>
-          <span>R$ 100</span>
-        </ChoiseCard>
+        {ticketTypes && ticketTypes.length > 0 ? (
+          <>
+            <ChoiseCard
+              clicked={clicked === 250}
+              onClick={() => {
+                handleClick(250);
+                setPaymentStep(6);
+                setDone(false);
+              }}
+            >
+              <h1>{ticketTypes[2].name}</h1>
+              <span>R$ 250</span>
+            </ChoiseCard>
+            <ChoiseCard
+              clicked={clicked === 100}
+              onClick={() => {
+                handleClick(100);
+                setPaymentStep(5);
+                setDone(true);
+              }}
+            >
+              <h1>Online</h1>
+              <span>R$ 100</span>
+            </ChoiseCard>
+          </>
+        ) : (
+          <></>
+        )}
       </OptionsDiv>
     </>
   );

@@ -17,17 +17,17 @@ export default function PaymentDashBoard() {
   const [done, setDone] = useState(false);
   const [ticketTypeId, setTicketTypeId] = useState();
   const { ticket } = useTicket(); //get Tickets
-  const { ticketTypes, getTicketTypes } = useTicketTypes();
-  const [props, setProps] = useState();
-  // const [reRender, setReRender] = useState(false);
+  const { ticketTypes } = useTicketTypes();
+  const [props] = useState();
 
-  useEffect(() => {
-    if (ticket?.status === 'PAID') {
-      setPaymentStep(4);
-    } else if (ticket?.status === 'RESERVED') {
-      setPaymentStep(3);
-    }
-  }, [ticket?.status]);
+  // NUNCA APAGAR ESSE COMENTARIO, É O QUE MARCA O ESTADO DO PAYMENT
+  // useEffect(() => {
+  //   if (ticket?.status === 'PAID') {
+  //     setPaymentStep(4);
+  //   } else if (ticket?.status === 'RESERVED') {
+  //     setPaymentStep(3);
+  //   }
+  // }, [ticket?.status]);
 
   return (
     <>
@@ -39,12 +39,6 @@ export default function PaymentDashBoard() {
           setTotal={setTotal}
           setDone={setDone}
           ticketTypes={ticketTypes}
-          ticketName1={ticketTypes ? ticketTypes[0].name : 'Presencial'}
-          ticketName2={ticketTypes ? ticketTypes[1].name : 'Online'}
-          ticketPrice1={ticketTypes ? ticketTypes[0].price : 250}
-          ticketPrice2={ticketTypes ? ticketTypes[1].price : 100}
-          ticketId1={ticketTypes ? ticketTypes[0].id : 0}
-          ticketId2={ticketTypes ? ticketTypes[1].id : 1}
           setTicketTypeId={setTicketTypeId}
         />
       )}
@@ -56,12 +50,6 @@ export default function PaymentDashBoard() {
           total={total}
           setDone={setDone}
           ticketTypes={props}
-          ticketName1={ticketTypes ? ticketTypes[1].isRemote : true}
-          ticketName2={ticketTypes ? ticketTypes[2].isRemote : true}
-          ticketPrice1={ticketTypes ? ticketTypes[1].price : 0}
-          ticketPrice2={ticketTypes ? ticketTypes[2].price : 350}
-          ticketId1={ticketTypes ? ticketTypes[1].id : 1}
-          ticketId2={ticketTypes ? ticketTypes[2].id : 2}
         />
       )}
 
