@@ -4,10 +4,13 @@ import { HiOutlineUser } from 'react-icons/hi';
 import useHotelRooms from '../../hooks/api/useHotelsRooms';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import Button from '../Form/Button';
+import useBooking from '../../hooks/api/useBookings';
 
 export default function HotelRooms({ clickedHotel }) {
   const { hotelsRooms, getHotelsRooms } = useHotelRooms(clickedHotel);
   const [selectedRoom, setSelectedRoom] = useState(null);
+  const { booking } = useBooking();
 
   useEffect(() => {
     getHotelsRooms(clickedHotel);
@@ -41,6 +44,7 @@ export default function HotelRooms({ clickedHotel }) {
           </Rooms>
         ))}
       </RoomsContainer>
+      <Button>RESERVAR QUARTO</Button>
     </Container>
   );
 }
@@ -53,6 +57,7 @@ const RoomsContainer = styled.div`
   display: flex;
   width: 100%;
   flex-wrap: wrap;
+  margin-bottom: 37px;
 `;
 
 const Rooms = styled.div`
@@ -80,8 +85,8 @@ const IconContainer = styled.div`
 
 const Icon = styled(HiOutlineUser)`
   font-size: 22px;
-  color: ${(props) => props.selectedColor};
-  fill: ${(props) => props.selectedColor};
+  color: ${(props) => props.selectedColor || '#000'};
+  fill: ${(props) => props.selectedColor || '#ffffff'};
 `;
 
 const FilledIcon = styled(HiOutlineUser)`

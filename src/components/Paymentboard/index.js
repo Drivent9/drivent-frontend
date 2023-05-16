@@ -21,15 +21,12 @@ export default function PaymentDashBoard() {
   const [props, setProps] = useState();
   // const [reRender, setReRender] = useState(false);
 
-  console.log(ticketTypes);
-
   useEffect(() => {
-    // if (ticket?.status === 'PAID') {
-    //   setPaymentStep(4);
-    // } 
-    // else if (ticket?.status === 'RESERVED') {
-    //   setPaymentStep(3);
-    // }
+    if (ticket?.status === 'PAID') {
+      setPaymentStep(4);
+    } else if (ticket?.status === 'RESERVED') {
+      setPaymentStep(3);
+    }
   }, [ticket?.status]);
 
   return (
@@ -46,8 +43,8 @@ export default function PaymentDashBoard() {
           ticketName2={ticketTypes ? ticketTypes[1].name : 'Online'}
           ticketPrice1={ticketTypes ? ticketTypes[0].price : 250}
           ticketPrice2={ticketTypes ? ticketTypes[1].price : 100}
-          ticketId1={ticketTypes ? ticketTypes[0].id: 0}
-          ticketId2={ticketTypes ? ticketTypes[1].id: 1}
+          ticketId1={ticketTypes ? ticketTypes[0].id : 0}
+          ticketId2={ticketTypes ? ticketTypes[1].id : 1}
           setTicketTypeId={setTicketTypeId}
         />
       )}
@@ -63,8 +60,8 @@ export default function PaymentDashBoard() {
           ticketName2={ticketTypes ? ticketTypes[2].isRemote : true}
           ticketPrice1={ticketTypes ? ticketTypes[1].price : 0}
           ticketPrice2={ticketTypes ? ticketTypes[2].price : 350}
-          ticketId1={ticketTypes ? ticketTypes[1].id: 1}
-          ticketId2={ticketTypes ? ticketTypes[2].id: 2}
+          ticketId1={ticketTypes ? ticketTypes[1].id : 1}
+          ticketId2={ticketTypes ? ticketTypes[2].id : 2}
         />
       )}
 
