@@ -63,7 +63,12 @@ export default function Hotel() {
                 ))}
               </HotelsCardsContainer>
               {}
-              <HotelRooms clickedHotel={clickedHotel} setStepBooking={setStepBooking} getBookingUser={getBookingUser} />
+              <HotelRooms
+                clickedHotel={clickedHotel}
+                setStepBooking={setStepBooking}
+                getBookingUser={getBookingUser}
+                bookingUser={bookingUser}
+              />
             </>
           )}
           {stepBooking === 1 && (
