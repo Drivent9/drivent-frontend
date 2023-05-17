@@ -6,12 +6,13 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import Button from '../Form/Button';
 import useBooking from '../../hooks/api/useBookings';
-import { toBeDisabled } from '@testing-library/jest-dom/dist/matchers';
 
-export default function HotelRooms({ clickedHotel }) {
+export default function HotelRooms({ clickedHotel, setStepBooking }) {
   const { hotelsRooms, getHotelsRooms } = useHotelRooms(clickedHotel);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const { booking } = useBooking();
+
+  //mock temporaria
   const bookingFake = [
     {
       id: 1,
@@ -44,23 +45,25 @@ export default function HotelRooms({ clickedHotel }) {
       <RoomsContainer>
         {sortedRooms.map((room) => {
           const bookingsForRoom = bookingFake.filter((booking) => booking.roomId === room.id);
-          const isFullyBooked = bookingsForRoom.length === room.capacity;
+          const isFull = bookingsForRoom.length === room.capacity;
           const isPartiallyBooked = bookingsForRoom.length > 0 && bookingsForRoom.length < room.capacity;
+          const partially = isPartiallyBooked ? room.capacity - bookingsForRoom.length : room.capacity;
 
           return (
             <Rooms
               key={room.id}
               clicked={room.id === selectedRoom}
-              isFull={isFullyBooked}
-              onClick={() => !isFullyBooked && handleRoomClick(room.id)}
+              isFull={isFull}
+              onClick={() => !isFull && handleRoomClick(room.id)}
             >
               <h1>{room.name}</h1>
               <IconContainer>
                 {Array.from({ length: room.capacity }, (_, index) => (
                   <Icon
                     key={index}
-                    isFull={isFullyBooked}
-                    props={room.id === selectedRoom && index === room.capacity - 1 ? '#FF4791' : undefined}
+                    isFull={isFull}
+                    props={room.id === selectedRoom && index === partially - 1 && '#FF4791'}
+                    isPartially={isPartiallyBooked && index && '#000000'}
                   />
                 ))}
               </IconContainer>
@@ -68,7 +71,7 @@ export default function HotelRooms({ clickedHotel }) {
           );
         })}
       </RoomsContainer>
-      <Button>RESERVAR QUARTO</Button>
+      <Button onClick={() => setStepBooking(1)}>RESERVAR QUARTO</Button>
     </Container>
   );
 }
@@ -113,5 +116,5 @@ const IconContainer = styled.div`
 const Icon = styled(HiOutlineUser)`
   font-size: 22px;
   color: ${(props) => (props.isFull ? '#9D9D9D' : props.props || '#000000')};
-  fill: ${(props) => (props.isFull ? '#9D9D9D' : props.props || '#ffffff')};
+  fill: ${(props) => (props.isFull ? '#9D9D9D' : props.props || props.isPartially || '#ffffff')};
 `;

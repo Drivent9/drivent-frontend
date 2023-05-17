@@ -6,11 +6,13 @@ import useTicket from '../../../hooks/api/useTicket';
 import HotelRooms from '../../../components/Hotels/HotelRooms';
 import useHotels from '../../../hooks/api/useHotels';
 import { useState } from 'react';
+import ResumeHotel from '../../../components/Hotels/resumeHotel';
 
 export default function Hotel() {
   const { ticket, ticketError } = useTicket();
   const { hotels, hotelsError } = useHotels();
   const [clickedHotel, setClickedHotel] = useState(0);
+  const [stepBooking, setStepBooking] = useState(0);
 
   if (ticketError || hotelsError) {
     return <p>Something went wrong, please, try again.</p>;
@@ -36,14 +38,30 @@ export default function Hotel() {
         ))}
       {ticket?.status === 'PAID' && ticket?.TicketType?.isRemote === false && (
         <>
-          <Title>Primeiro, escolha seu hotel</Title>
-          <HotelsCardsContainer>
-            {hotels?.map((i) => (
-              <HotelCard key={i.id} id={i.id} name={i.name} image={i.image} setClickedHotel={setClickedHotel} />
-            ))}
-          </HotelsCardsContainer>
-          {}
-          <HotelRooms clickedHotel={clickedHotel} hotels={hotels} />
+          {stepBooking === 0 && (
+            <>
+              <Title>Primeiro, escolha seu hotel</Title>
+              <HotelsCardsContainer>
+                {hotels?.map((i) => (
+                  <HotelCard
+                    key={i.id}
+                    id={i.id}
+                    name={i.name}
+                    image={i.image}
+                    setClickedHotel={setClickedHotel}
+                    clickedHotel={clickedHotel}
+                  />
+                ))}
+              </HotelsCardsContainer>
+              {}
+              <HotelRooms clickedHotel={clickedHotel} setStepBooking={setStepBooking} />
+            </>
+          )}
+          {stepBooking === 1 && (
+            <>
+              <ResumeHotel />
+            </>
+          )}
         </>
       )}
     </>
