@@ -68,7 +68,7 @@ export default function Hotel() {
           )}
           {stepBooking === 1 && (
             <>
-              <ResumeHotel bookingUser={bookingUser} />
+              <ResumeHotel bookingUser={bookingUser} setStepBooking={setStepBooking}/>
             </>
           )}
         </>
