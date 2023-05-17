@@ -7,10 +7,10 @@ export default function Resume({ setPaymentStep, total, setDone, selectedTicket 
   const { createTicket } = useCreateTicket();
 
   async function postTicket() {
-    console.log(selectedTicket);
+    const data = { ticketTypeId: selectedTicket };
 
     try {
-      await createTicket(selectedTicket);
+      await createTicket(data);
       toast('Ticket registrado com sucesso');
       setPaymentStep(3);
       setDone(false);
