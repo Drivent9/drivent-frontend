@@ -21,11 +21,11 @@ export default function Hotel() {
     return <p>Something went wrong, please, try again.</p>;
   }
 
-  useEffect(() => {
-    if (bookingUser) {
-      setStepBooking(1);
-    }
-  }, [bookingUser?.id]);
+  // useEffect(() => {
+  //   if (bookingUser) {
+  //     setStepBooking(1);
+  //   }
+  // }, [bookingUser?.id]);
 
   return (
     <>
@@ -68,7 +68,7 @@ export default function Hotel() {
           )}
           {stepBooking === 1 && (
             <>
-              <ResumeHotel bookingUser={bookingUser} setStepBooking={setStepBooking}/>
+              <ResumeHotel bookingUser={bookingUser} setStepBooking={setStepBooking} />
             </>
           )}
         </>

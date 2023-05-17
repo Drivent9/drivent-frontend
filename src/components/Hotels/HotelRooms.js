@@ -63,8 +63,12 @@ export default function HotelRooms({ clickedHotel, setStepBooking, getBookingUse
                   <Icon
                     key={index}
                     isFull={isFull}
+                    isPartially={
+                      isPartiallyBooked &&
+                      (partially === 2 && room.capacity > 2 ? index === room.capacity - 1 : index) &&
+                      '#000000'
+                    }
                     props={room.id === selectedRoom && index === partially - 1 && '#FF4791'}
-                    isPartially={isPartiallyBooked && index && '#000000'}
                   />
                 ))}
               </IconContainer>
