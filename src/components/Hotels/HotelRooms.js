@@ -7,8 +7,11 @@ import { useState } from 'react';
 import Button from '../Form/Button';
 import { toast } from 'react-toastify';
 import useCreateBooking from '../../hooks/api/useCreateBooking';
+import { changeBooking } from '../../services/bookingApi';
+import useToken from '../../hooks/useToken';
 
-export default function HotelRooms({ clickedHotel, setStepBooking, getBookingUser }) {
+export default function HotelRooms({ clickedHotel, setStepBooking, getBookingUser, bookingUser }) {
+  const token = useToken();
   const { hotelsRooms, getHotelsRooms } = useHotelRooms(clickedHotel);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const { createBooking } = useCreateBooking();
@@ -36,6 +39,20 @@ export default function HotelRooms({ clickedHotel, setStepBooking, getBookingUse
       await createBooking(body);
       await getBookingUser();
       setStepBooking(1);
+    } catch (error) {
+      toast('Não foi possível reservar o seu quarto!');
+    }
+  }
+
+  async function changeRoomFromBooking() {
+    const body = {
+      roomId: selectedRoom,
+    };
+    try {
+      console.log(body, token, bookingUser.id);
+      await changeBooking(body, token, bookingUser.id);
+      setStepBooking(1);
+      toast('Troca de quarto concluída com sucesso!');
     } catch (error) {
       toast('Não foi possível reservar o seu quarto!');
     }
@@ -76,9 +93,14 @@ export default function HotelRooms({ clickedHotel, setStepBooking, getBookingUse
           );
         })}
       </RoomsContainer>
-      {selectedRoom && (
+      {!bookingUser && selectedRoom && (
         <>
           <Button onClick={() => postBooking()}>RESERVAR QUARTO</Button>
+        </>
+      )}
+      {bookingUser && selectedRoom && (
+        <>
+          <Button onClick={() => changeRoomFromBooking()}>CONFIRMAR TROCA</Button>
         </>
       )}
     </Container>
@@ -107,7 +129,7 @@ const Rooms = styled.div`
   background-color: ${(props) => (props.isFull ? '#E9E9E9' : props.clicked ? '#FFEED2' : '#ffffff')};
   :hover {
     cursor: ${(props) => (props.isFull ? 'default' : 'pointer')};
-    background-color: ${(props) => (props.isFull ? '#E9E9E9':'#ffeed2')};
+    background-color: ${(props) => (props.isFull ? '#E9E9E9' : '#ffeed2')};
   }
   h1 {
     font-family: 'Roboto', sans-serif;
