@@ -22,14 +22,13 @@ export default function PaymentDashBoard() {
   const { ticket } = useTicket(); //get Tickets
   const { ticketTypes } = useTicketTypes();
 
-  //! NUNCA APAGAR ESSE COMENTARIO, É O QUE MARCA O ESTADO DO PAYMENT
-  // useEffect(() => {
-  //   if (ticket?.status === 'PAID') {
-  //     setPaymentStep(4);
-  //   } else if (ticket?.status === 'RESERVED') {
-  //     setPaymentStep(3);
-  //   }
-  // }, [ticket?.status]);
+  useEffect(() => {
+    if (ticket?.status === 'PAID') {
+      setPaymentStep(4);
+    } else if (ticket?.status === 'RESERVED') {
+      setPaymentStep(3);
+    }
+  }, [ticket?.status]);
 
   const uniqueTicketTypes = [];
   const notRemoteTickets = [];
@@ -93,7 +92,9 @@ export default function PaymentDashBoard() {
         </>
       )}
 
-      {done && <Resume setPaymentStep={setPaymentStep} total={total} setDone={setDone} selectedTicket={selectedTicket} />}
+      {done && (
+        <Resume setPaymentStep={setPaymentStep} total={total} setDone={setDone} selectedTicket={selectedTicket} />
+      )}
 
       {paymentStep === 3 && (
         <>
