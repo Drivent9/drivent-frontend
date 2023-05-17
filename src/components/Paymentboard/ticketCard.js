@@ -1,66 +1,54 @@
-import { Title } from './styled.js';
-import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function TicketCard({ setPaymentStep, setTotal, setDone, ticketName1, ticketTypes }) {
-  const [clicked, setClicked] = useState(0);
-
-  function handleClick(amount) {
-    setClicked(amount);
+export default function TicketCard({
+  clicked,
+  setClicked,
+  setClickedHotel,
+  setPaymentStep,
+  setTotal,
+  setDone,
+  setSelectedTicket,
+  ticketName,
+  ticketPrice,
+  isRemote,
+  ticketId
+}) {
+  function handleClick(amount, ticketId) {
+    setClicked(ticketId);
     setTotal(amount);
+    setDone(false);
+    setPaymentStep(6);
+    setClickedHotel(0);
+    setSelectedTicket(ticketId);
+
+    if (isRemote) {
+      setDone(true);
+      setPaymentStep(5);
+    }
   }
 
   return (
     <>
-      <Title>Primeiro, escolha sua modalidade de ingresso</Title>
-      <OptionsDiv>
-        {ticketTypes && ticketTypes.length > 0 ? (
-          <>
-            <ChoiseCard
-              clicked={clicked === 250}
-              onClick={() => {
-                handleClick(250);
-                setPaymentStep(6);
-                setDone(false);
-              }}
-            >
-              <h1>{ticketTypes[2].name}</h1>
-              <span>R$ 250</span>
-            </ChoiseCard>
-            <ChoiseCard
-              clicked={clicked === 100}
-              onClick={() => {
-                handleClick(100);
-                setPaymentStep(5);
-                setDone(true);
-              }}
-            >
-              <h1>Online</h1>
-              <span>R$ 100</span>
-            </ChoiseCard>
-          </>
-        ) : (
-          <></>
-        )}
-      </OptionsDiv>
+      <ChoiseCard
+        clicked={clicked === ticketId}
+        onClick={() => {
+          handleClick(ticketPrice, ticketId);
+        }}
+      >
+        <h1>{ticketName}</h1>
+        <span>R$ {ticketPrice}</span>
+      </ChoiseCard>
     </>
   );
 }
 
-const OptionsDiv = styled.div`
-  width: 50%;
-  height: auto;
-  display: flex;
-  gap: 25px;
-  margin-bottom: 40px;
-`;
 const ChoiseCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  width: 9.5rem;
+  width: 11rem;
   height: 9rem;
   padding: 3px;
   border: 1px solid #cecece;

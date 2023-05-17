@@ -3,26 +3,25 @@ import useCreateTicket from '../../hooks/api/useCreateTicket.js';
 import Button from '../Form/Button.js';
 import { Title } from './styled.js';
 
-export default function Resume({ setPaymentStep, amount, setDone, ticketTypeId }) {
+export default function Resume({ setPaymentStep, total, setDone, selectedTicket }) {
   const { createTicket } = useCreateTicket();
 
   async function postTicket() {
-    setPaymentStep(3);
-    setDone(false);
-  }
+    console.log(selectedTicket);
 
-  // try {
-  //   await createTicket(data);
-  //   toast('Ticket registrado com sucesso');
-  //   setPaymentStep(3);
-  //   setDone(false);
-  // } catch (err) {
-  //   toast('Não foi possível registrar o ticket!');
-  // }
+    try {
+      await createTicket(selectedTicket);
+      toast('Ticket registrado com sucesso');
+      setPaymentStep(3);
+      setDone(false);
+    } catch (err) {
+      toast('Não foi possível registrar o ticket!');
+    }
+  }
 
   return (
     <>
-      <Title>Fechado! O total ficou em R$ {amount}. Agora é só confirmar:</Title>
+      <Title>Fechado! O total ficou em R$ {total}. Agora é só confirmar:</Title>
       <Button
         onClick={() => {
           postTicket();
