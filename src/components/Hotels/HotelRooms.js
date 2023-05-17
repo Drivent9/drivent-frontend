@@ -5,25 +5,13 @@ import useHotelRooms from '../../hooks/api/useHotelsRooms';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Button from '../Form/Button';
-import useBooking from '../../hooks/api/useBookings';
+import { toast } from 'react-toastify';
+import useCreateBooking from '../../hooks/api/useCreateBooking';
 
-export default function HotelRooms({ clickedHotel, setStepBooking }) {
+export default function HotelRooms({ clickedHotel, setStepBooking, getBookingUser }) {
   const { hotelsRooms, getHotelsRooms } = useHotelRooms(clickedHotel);
   const [selectedRoom, setSelectedRoom] = useState(null);
-  const { booking } = useBooking();
-
-  //mock temporaria
-  const bookingFake = [
-    {
-      id: 1,
-      userId: 1,
-      roomId: 1070,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    { id: 2, userId: 2, roomId: 1071, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
-    { id: 2, userId: 2, roomId: 1071, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
-  ];
+  const { createBooking } = useCreateBooking();
 
   useEffect(() => {
     getHotelsRooms(clickedHotel);
@@ -39,15 +27,28 @@ export default function HotelRooms({ clickedHotel, setStepBooking }) {
     setSelectedRoom(roomId === selectedRoom ? null : roomId);
   };
 
+  async function postBooking() {
+    const body = {
+      roomId: selectedRoom,
+    };
+
+    try {
+      await createBooking(body);
+      await getBookingUser();
+      setStepBooking(1);
+    } catch (error) {
+      toast('Não foi possível reservar o seu quarto!');
+    }
+  }
+
   return (
     <Container>
       <Title>Ótima pedida! Agora escolha seu quarto:</Title>
       <RoomsContainer>
         {sortedRooms.map((room) => {
-          const bookingsForRoom = bookingFake.filter((booking) => booking.roomId === room.id);
-          const isFull = bookingsForRoom.length === room.capacity;
-          const isPartiallyBooked = bookingsForRoom.length > 0 && bookingsForRoom.length < room.capacity;
-          const partially = isPartiallyBooked ? room.capacity - bookingsForRoom.length : room.capacity;
+          const isFull = room.Booking.length === room.capacity;
+          const isPartiallyBooked = room.Booking.length > 0 && room.Booking.length < room.capacity;
+          const partially = isPartiallyBooked ? room.capacity - room.Booking.length : room.capacity;
 
           return (
             <Rooms
@@ -71,7 +72,9 @@ export default function HotelRooms({ clickedHotel, setStepBooking }) {
           );
         })}
       </RoomsContainer>
-      <Button onClick={() => setStepBooking(1)}>RESERVAR QUARTO</Button>
+      <Button onClick={() => postBooking()} disabled={!selectedRoom}>
+        RESERVAR QUARTO
+      </Button>
     </Container>
   );
 }

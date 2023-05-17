@@ -7,16 +7,25 @@ import HotelRooms from '../../../components/Hotels/HotelRooms';
 import useHotels from '../../../hooks/api/useHotels';
 import { useState } from 'react';
 import ResumeHotel from '../../../components/Hotels/resumeHotel';
+import useUserBooking from '../../../hooks/api/useUserBookings';
+import { useEffect } from 'react';
 
 export default function Hotel() {
   const { ticket, ticketError } = useTicket();
   const { hotels, hotelsError } = useHotels();
   const [clickedHotel, setClickedHotel] = useState(0);
   const [stepBooking, setStepBooking] = useState(0);
+  const { bookingUser, getBookingUser } = useUserBooking();
 
   if (ticketError || hotelsError) {
     return <p>Something went wrong, please, try again.</p>;
   }
+
+  useEffect(() => {
+    if (bookingUser) {
+      setStepBooking(1);
+    }
+  }, [bookingUser?.id]);
 
   return (
     <>
@@ -54,12 +63,12 @@ export default function Hotel() {
                 ))}
               </HotelsCardsContainer>
               {}
-              <HotelRooms clickedHotel={clickedHotel} setStepBooking={setStepBooking} />
+              <HotelRooms clickedHotel={clickedHotel} setStepBooking={setStepBooking} getBookingUser={getBookingUser} />
             </>
           )}
           {stepBooking === 1 && (
             <>
-              <ResumeHotel />
+              <ResumeHotel bookingUser={bookingUser} />
             </>
           )}
         </>
