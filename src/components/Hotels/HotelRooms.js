@@ -76,9 +76,11 @@ export default function HotelRooms({ clickedHotel, setStepBooking, getBookingUse
           );
         })}
       </RoomsContainer>
-      <Button onClick={() => postBooking()} disabled={!selectedRoom}>
-        RESERVAR QUARTO
-      </Button>
+      {selectedRoom && (
+        <>
+          <Button onClick={() => postBooking()}>RESERVAR QUARTO</Button>
+        </>
+      )}
     </Container>
   );
 }
