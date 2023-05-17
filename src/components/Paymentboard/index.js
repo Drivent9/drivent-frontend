@@ -10,17 +10,19 @@ import Resume from './resume.js';
 import useTicket from '../../hooks/api/useTicket';
 import { useEffect } from 'react';
 import useTicketTypes from '../../hooks/api/useTicketTypes';
+import { Title } from './styled';
 
 export default function PaymentDashBoard() {
   const [paymentStep, setPaymentStep] = useState(5);
-  const [total, setTotal] = useState(250);
+  const [total, setTotal] = useState(0);
   const [done, setDone] = useState(false);
-  const [ticketTypeId, setTicketTypeId] = useState();
+  const [clicked, setClicked] = useState(0);
+  const [clickedHotel, setClickedHotel] = useState(0);
+  const [selectedTicket, setSelectedTicket] = useState(0);
   const { ticket } = useTicket(); //get Tickets
   const { ticketTypes } = useTicketTypes();
-  const [props] = useState();
 
-  // NUNCA APAGAR ESSE COMENTARIO, É O QUE MARCA O ESTADO DO PAYMENT
+  //! NUNCA APAGAR ESSE COMENTARIO, É O QUE MARCA O ESTADO DO PAYMENT
   // useEffect(() => {
   //   if (ticket?.status === 'PAID') {
   //     setPaymentStep(4);
@@ -29,31 +31,69 @@ export default function PaymentDashBoard() {
   //   }
   // }, [ticket?.status]);
 
+  const uniqueTicketTypes = [];
+  const notRemoteTickets = [];
+
+  ticketTypes?.forEach((ticketType) => {
+    if (!uniqueTicketTypes.some((item) => item.name === ticketType.name)) {
+      uniqueTicketTypes.push(ticketType);
+    }
+    if (!ticketType.isRemote) {
+      notRemoteTickets.push(ticketType);
+    }
+  });
+
+  const hotelPrice = notRemoteTickets[1]?.price - notRemoteTickets[0]?.price;
+
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
 
       {paymentStep >= 5 && (
-        <TicketCard
-          setPaymentStep={setPaymentStep}
-          setTotal={setTotal}
-          setDone={setDone}
-          ticketTypes={ticketTypes}
-          setTicketTypeId={setTicketTypeId}
-        />
+        <>
+          <Title>Primeiro, escolha sua modalidade de ingresso</Title>
+          <OptionsDiv>
+            {uniqueTicketTypes?.map((t) => (
+              <TicketCard
+                clicked={clicked}
+                setClicked={setClicked}
+                setClickedHotel={setClickedHotel}
+                setPaymentStep={setPaymentStep}
+                setTotal={setTotal}
+                setDone={setDone}
+                setSelectedTicket={setSelectedTicket}
+                ticketName={t.name}
+                ticketPrice={t.price}
+                ticketId={t.id}
+                isRemote={t.isRemote}
+              />
+            ))}
+          </OptionsDiv>
+        </>
       )}
 
       {paymentStep >= 6 && (
-        <Booking
-          setPaymentStep={setPaymentStep}
-          setTotal={setTotal}
-          total={total}
-          setDone={setDone}
-          ticketTypes={props}
-        />
+        <>
+          <Title>Ótimo! Agora escolha sua modalidade de hospedagem</Title>
+          <OptionsDiv>
+            {notRemoteTickets.map((h) => (
+              <Booking
+                setTotal={setTotal}
+                setDone={setDone}
+                clickedHotel={clickedHotel}
+                setClickedHotel={setClickedHotel}
+                setSelectedTicket={setSelectedTicket}
+                includesHotel={h.includesHotel}
+                ticketPrice={h.price}
+                hotelPrice={hotelPrice}
+                ticketId={h.id}
+              />
+            ))}
+          </OptionsDiv>
+        </>
       )}
 
-      {done && <Resume setPaymentStep={setPaymentStep} amount={total} setDone={setDone} ticketTypeId={ticketTypeId} />}
+      {done && <Resume setPaymentStep={setPaymentStep} total={total} setDone={setDone} selectedTicket={selectedTicket} />}
 
       {paymentStep === 3 && (
         <>
@@ -72,4 +112,12 @@ export default function PaymentDashBoard() {
 
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px !important;
+`;
+
+const OptionsDiv = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  gap: 25px;
+  margin-bottom: 40px;
 `;
