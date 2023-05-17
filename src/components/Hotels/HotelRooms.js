@@ -101,6 +101,7 @@ const Rooms = styled.div`
   background-color: ${(props) => (props.isFull ? '#E9E9E9' : props.clicked ? '#FFEED2' : '#ffffff')};
   :hover {
     cursor: ${(props) => (props.isFull ? 'default' : 'pointer')};
+    background-color: ${(props) => (props.isFull ? '#E9E9E9':'#ffeed2')};
   }
   h1 {
     font-family: 'Roboto', sans-serif;

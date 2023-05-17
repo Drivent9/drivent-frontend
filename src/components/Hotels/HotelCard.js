@@ -112,4 +112,8 @@ const HotelCardStyled = styled.div`
     border-radius: 5px;
     margin-inline: auto;
   }
+  :hover {
+    background-color: #ffeed2;
+  }
+  cursor: pointer;
 `;
