@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { getHotelsWithRooms } from '../../services/hotelApi';
 
 export default function HotelCard(props) {
-  const { id, name, image, setClickedHotel } = props;
+  const { id, name, image, setClickedHotel, clickedHotel } = props;
   const [types, setTypes] = useState('');
   const { userData } = useContext(UserContext);
   const [error, setError] = useState(null);
@@ -55,7 +55,7 @@ export default function HotelCard(props) {
 
   return (
     <>
-      <HotelCardStyled onClick={hotelCliked}>
+      <HotelCardStyled onClick={hotelCliked} clickedHotel={id === clickedHotel}>
         <img src={image} alt="hotelpicture" />
         <h1>{name}</h1>
         <p>
@@ -76,7 +76,7 @@ export default function HotelCard(props) {
 const HotelCardStyled = styled.div`
   display: flex;
   flex-direction: column;
-  background: #ebebeb;
+  background: ${(props) => (props.clickedHotel ? '#FFEED2' : '#ebebeb')};
   border-radius: 10px;
   padding: 14px;
   height: 264px;
