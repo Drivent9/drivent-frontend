@@ -2,21 +2,22 @@ import { Title } from './styled';
 import styled from 'styled-components';
 
 export default function ChosenTicket({ ticketType }) {
-  // remover amount, clickedType, haveHotel e usar as informações vindas do ticketTypeId, ticketTypes
-  // usar for para percorrer o ticketTypes.id e comparar com o ticketTypeId para retornar
-  // apagar os props (amount, clickedType, haveHotel) no index
+  if (!ticketType) {
+    <></>;
+  }
 
   return (
     <Container>
       <Title>Ingresso escolhido</Title>
       <ChosenTicketContainer>
-        <h1>
-          {ticketType?.isRemote === true ? 'Online'
-            : ticketType?.includesHotel === true ?
-              'Presencial + Com Hotel'
-              : 'Presencial + Sem Hotel'
-          }
-        </h1>
+        {ticketType?.isRemote === true ? (
+          <h1>Online</h1>
+        ) : ticketType?.price === 600 ? (
+          <h1>Presencial + Com Hotel</h1>
+        ) : (
+          <h1>Presencial + Sem Hotel</h1>
+        )}
+
         <h2>R$ {ticketType?.price}</h2>
       </ChosenTicketContainer>
     </Container>

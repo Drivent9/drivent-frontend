@@ -19,7 +19,7 @@ export default function PaymentDashBoard() {
   const [clicked, setClicked] = useState(0);
   const [clickedHotel, setClickedHotel] = useState(0);
   const [selectedTicket, setSelectedTicket] = useState(0);
-  const { ticket } = useTicket(); //get Tickets
+  const { ticket, getTicket } = useTicket();
   const { ticketTypes } = useTicketTypes();
 
   useEffect(() => {
@@ -93,7 +93,13 @@ export default function PaymentDashBoard() {
       )}
 
       {done && (
-        <Resume setPaymentStep={setPaymentStep} total={total} setDone={setDone} selectedTicket={selectedTicket} />
+        <Resume
+          setPaymentStep={setPaymentStep}
+          total={total}
+          setDone={setDone}
+          selectedTicket={selectedTicket}
+          getTicket={getTicket}
+        />
       )}
 
       {paymentStep === 3 && (
