@@ -1,3 +1,4 @@
+import Button from '../Form/Button';
 import { Title } from '../Paymentboard/styled';
 
 export default function ResumeHotel({ bookingUser }) {
@@ -8,7 +9,8 @@ export default function ResumeHotel({ bookingUser }) {
   return (
     <>
       <Title>Você já escolheu seu quarto:</Title>
-      <p>{bookingUser.Room.id} Apenas um teste que esta chegando :p</p>
+      <p>{bookingUser.Room.id} (teste para ver o Room Id)</p>
+      <Button>TROCAR DE QUARTO</Button>
     </>
   );
 }
