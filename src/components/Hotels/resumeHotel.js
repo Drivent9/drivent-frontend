@@ -2,10 +2,11 @@ import useHotelRooms from '../../hooks/api/useHotelsRooms';
 import Button from '../Form/Button';
 import { Title } from '../Paymentboard/styled';
 
-export default function ResumeHotel({ bookingUser, setStepBooking }) {
+export default function ResumeHotel({ bookingUser, setStepBooking, getBookingUser }) {
   const { hotelsRooms } = useHotelRooms(bookingUser.Room.hotelId);
 
   function changeRoom() {
+    getBookingUser();
     setStepBooking(0);
   }
 
