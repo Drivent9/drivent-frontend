@@ -65,6 +65,7 @@ export default function PaymentDashBoard() {
                 ticketPrice={t.price}
                 ticketId={t.id}
                 isRemote={t.isRemote}
+                key={t.id}
               />
             ))}
           </OptionsDiv>
@@ -86,6 +87,7 @@ export default function PaymentDashBoard() {
                 ticketPrice={h.price}
                 hotelPrice={hotelPrice}
                 ticketId={h.id}
+                key={h.id}
               />
             ))}
           </OptionsDiv>

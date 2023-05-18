@@ -3,19 +3,19 @@ import styled from 'styled-components';
 
 export default function ChosenTicket({ ticketType }) {
   if (!ticketType) {
-    <></>;
+    <p>Algo deu errado, por favor atualize a pagina</p>;
   }
 
   return (
     <Container>
       <Title>Ingresso escolhido</Title>
       <ChosenTicketContainer>
-        {ticketType?.isRemote === true ? (
-          <h1>Online</h1>
-        ) : ticketType?.price === 600 ? (
-          <h1>Presencial + Com Hotel</h1>
+        {ticketType?.isRemote ? (
+          <h1>{ticketType.name}</h1>
+        ) : ticketType?.includesHotel ? (
+          <h1>{ticketType.name} + Com Hotel</h1>
         ) : (
-          <h1>Presencial + Sem Hotel</h1>
+          <h1>{ticketType.name} + Sem Hotel</h1>
         )}
 
         <h2>R$ {ticketType?.price}</h2>
