@@ -16,6 +16,8 @@ export default function HotelRooms({ clickedHotel, setStepBooking, getBookingUse
   const [selectedRoom, setSelectedRoom] = useState(null);
   const { createBooking } = useCreateBooking();
 
+  console.log(bookingUser?.Room?.id);
+
   useEffect(() => {
     getHotelsRooms(clickedHotel);
   }, [clickedHotel]);
@@ -49,7 +51,9 @@ export default function HotelRooms({ clickedHotel, setStepBooking, getBookingUse
       roomId: selectedRoom,
     };
     try {
-      console.log(body, token, bookingUser.id);
+      if (selectedRoom === bookingUser?.Room?.id) {
+        return toast('Você já está nesse quarto. Selecione outro.');
+      }
       await changeBooking(body, token, bookingUser.id);
       setStepBooking(1);
       toast('Troca de quarto concluída com sucesso!');

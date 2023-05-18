@@ -73,7 +73,7 @@ export default function Hotel() {
           )}
           {stepBooking === 1 && (
             <>
-              <ResumeHotel bookingUser={bookingUser} setStepBooking={setStepBooking} />
+              <ResumeHotel bookingUser={bookingUser} setStepBooking={setStepBooking} getBookingUser={getBookingUser} />
             </>
           )}
         </>
