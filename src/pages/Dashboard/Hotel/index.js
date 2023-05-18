@@ -21,6 +21,12 @@ export default function Hotel() {
     return <p>Something went wrong, please, try again.</p>;
   }
 
+  useEffect(() => {
+    if (bookingUser) {
+      setStepBooking(1);
+    }
+  }, [bookingUser?.id]);
+
   if (!ticket) {
     return (
       <>
@@ -33,14 +39,6 @@ export default function Hotel() {
       </>
     );
   }
-
-  console.log(ticket.TicketType);
-
-  // useEffect(() => {
-  //   if (bookingUser) {
-  //     setStepBooking(1);
-  //   }
-  // }, [bookingUser?.id]);
 
   return (
     <>
