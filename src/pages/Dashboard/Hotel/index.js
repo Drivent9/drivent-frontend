@@ -11,15 +11,30 @@ import useUserBooking from '../../../hooks/api/useUserBookings';
 import { useEffect } from 'react';
 
 export default function Hotel() {
-  const { ticket, ticketError } = useTicket();
+  const { ticket } = useTicket();
   const { hotels, hotelsError } = useHotels();
   const [clickedHotel, setClickedHotel] = useState(0);
   const [stepBooking, setStepBooking] = useState(0);
   const { bookingUser, getBookingUser } = useUserBooking();
 
-  if (ticketError || hotelsError) {
+  if (hotelsError) {
     return <p>Something went wrong, please, try again.</p>;
   }
+
+  if (!ticket) {
+    return (
+      <>
+        <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
+        <MessageWhenTicketIsNotPaid>
+          Você precisa ter confirmado pagamento antes
+          <br />
+          de fazer a escolha de hospedagem
+        </MessageWhenTicketIsNotPaid>
+      </>
+    );
+  }
+
+  console.log(ticket.TicketType);
 
   // useEffect(() => {
   //   if (bookingUser) {
@@ -30,22 +45,21 @@ export default function Hotel() {
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      {ticket?.TicketType.isRemote === true && (
+      {ticket.TicketType.includesHotel === false && (
         <MessageWhenTicketIsRemote>
           Sua modalidade de ingresso não inclui hospedagem
           <br />
           Prossiga para a escolha de atividades
         </MessageWhenTicketIsRemote>
       )}
-      {ticket?.status === 'RESERVED' ||
-        (!ticket && (
-          <MessageWhenTicketIsNotPaid>
-            Você precisa ter confirmado pagamento antes
-            <br />
-            de fazer a escolha de hospedagem
-          </MessageWhenTicketIsNotPaid>
-        ))}
-      {ticket?.status === 'PAID' && ticket?.TicketType?.isRemote === false && (
+      {ticket.status === 'RESERVED' && ticket.TicketType.includesHotel === true && (
+        <MessageWhenTicketIsNotPaid>
+          Você precisa ter confirmado pagamento antes
+          <br />
+          de fazer a escolha de hospedagem
+        </MessageWhenTicketIsNotPaid>
+      )}
+      {ticket.status === 'PAID' && ticket.TicketType.includesHotel === true && (
         <>
           {stepBooking === 0 && (
             <>
