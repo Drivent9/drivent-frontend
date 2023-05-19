@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import UserContext from '../../contexts/UserContext';
 import { useEffect, useState } from 'react';
 import { getHotelsWithRooms } from '../../services/hotelApi';
+import useHotelRooms from '../../hooks/api/useHotelsRooms';
 
 export default function HotelCard(props) {
   const { id, name, image, setClickedHotel, clickedHotel } = props;
@@ -11,6 +12,12 @@ export default function HotelCard(props) {
   const [error, setError] = useState(null);
   const [room, setRoom] = useState(null);
   useEffect(getHotelWithRoom, []);
+
+  //Calcula o numero de vagas:
+  const { hotelsRooms } = useHotelRooms(id);
+  const totalCapacity = hotelsRooms?.Rooms.reduce((sum, room) => sum + room.capacity, 0);
+  const totalGuests = hotelsRooms?.Rooms.reduce((sum, room) => sum + room.Booking.length, 0);
+  const availableVacancies = totalCapacity - totalGuests;
 
   async function getHotelWithRoom() {
     try {
@@ -66,7 +73,7 @@ export default function HotelCard(props) {
         <p>
           <strong>Vagas disponíveis:</strong>
           <br />
-          {room?.Rooms.length}
+          {availableVacancies}
         </p>
       </HotelCardStyled>
     </>
