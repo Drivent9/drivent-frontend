@@ -53,6 +53,7 @@ export default function HotelRooms({ clickedHotel, setStepBooking, getBookingUse
         return toast('Você já está nesse quarto. Selecione outro.');
       }
       await changeBooking(body, token, bookingUser.id);
+      await getBookingUser();
       setStepBooking(1);
       toast('Troca de quarto concluída com sucesso!');
     } catch (error) {
