@@ -39,6 +39,10 @@ export default function SignIn() {
     }
   }
 
+  async function loginGitHub() {
+    alert('Em breve!');
+  }
+
   return (
     <AuthLayout background={eventInfo.backgroundImageUrl}>
       <Row>
@@ -60,7 +64,7 @@ export default function SignIn() {
             Entrar
           </Button>
         </form>
-        <Button type="submit" style={{ backgroundColor: '#C2C4C4' }} fullWidth>
+        <Button onClick={loginGitHub} style={{ backgroundColor: 'black', color: 'white' }} fullWidth>
           <AiOutlineGithub size={20} style={{ marginRight: '10px' }} />
           Entrar com GitHub
         </Button>

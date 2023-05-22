@@ -22,6 +22,7 @@ export default function Hotel() {
   }
 
   useEffect(() => {
+    getBookingUser();
     if (bookingUser) {
       setStepBooking(1);
     }
