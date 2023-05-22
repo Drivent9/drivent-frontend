@@ -3,12 +3,15 @@ import Button from '../Form/Button';
 import { Title } from '../Paymentboard/styled';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import { getHotelsWithRooms } from '../../services/hotelApi';
 
 export default function ResumeHotel({ bookingUser, setStepBooking, getBookingUser }) {
   const { hotelsRooms } = useHotelRooms(bookingUser.Room.hotelId);
   const [roomMate, setRoomMate] = useState('');
-  const currentRoomBookings = hotelsRooms?.Rooms.find(room => room.id === bookingUser.Room.id)?.Booking;
+  const currentRoomBookings = hotelsRooms?.Rooms.find((room) => room.id === bookingUser.Room.id)?.Booking;
   useEffect(() => {
+    getBookingUser();
+    console.log(hotelsRooms);
     if (currentRoomBookings?.length === 1) {
       setRoomMate('Somente você');
     } else if (currentRoomBookings?.length === 2) {
@@ -16,12 +19,17 @@ export default function ResumeHotel({ bookingUser, setStepBooking, getBookingUse
     } else if (currentRoomBookings?.length === 3) {
       setRoomMate('Você e mais 2');
     }
-  }, [currentRoomBookings]);
-  function changeRoom() {
-    getBookingUser();
-    setStepBooking(0);
+  }, [currentRoomBookings, roomMate]);
+
+  async function changeRoom() {
+    try {
+      await getBookingUser();
+      setStepBooking(0);
+    } catch (err) {
+      console.log(err);
+    }
   }
-  
+
   if (!bookingUser || !hotelsRooms) {
     return <></>;
   }
@@ -32,7 +40,7 @@ export default function ResumeHotel({ bookingUser, setStepBooking, getBookingUse
     type = 'Double';
   } else if (bookingUser.Room.capacity === 3) {
     type = 'Triple';
-  } else{
+  } else {
     type = 'Single';
   }
 
@@ -51,9 +59,9 @@ export default function ResumeHotel({ bookingUser, setStepBooking, getBookingUse
           <strong>Pessoas no seu quarto</strong>
           <br />
           {roomMate}
-        </p>        
+        </p>
       </ResumeCardStyled>
-      <Button onClick={changeRoom}>TROCAR DE QUARTO</Button>
+      <Button onClick={() => changeRoom()}>TROCAR DE QUARTO</Button>
     </>
   );
 }
