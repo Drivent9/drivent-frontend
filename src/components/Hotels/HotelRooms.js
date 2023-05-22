@@ -17,6 +17,7 @@ export default function HotelRooms({ clickedHotel, setStepBooking, getBookingUse
   const { createBooking } = useCreateBooking();
 
   useEffect(() => {
+    getBookingUser();
     getHotelsRooms(clickedHotel);
   }, [clickedHotel]);
 
@@ -37,7 +38,6 @@ export default function HotelRooms({ clickedHotel, setStepBooking, getBookingUse
 
     try {
       await createBooking(body);
-      await getBookingUser();
       setStepBooking(1);
     } catch (error) {
       toast('Não foi possível reservar o seu quarto!');
@@ -54,6 +54,7 @@ export default function HotelRooms({ clickedHotel, setStepBooking, getBookingUse
       }
       await changeBooking(body, token, bookingUser.id);
       setStepBooking(1);
+      await getBookingUser();
       toast('Troca de quarto concluída com sucesso!');
     } catch (error) {
       toast('Não foi possível reservar o seu quarto!');
