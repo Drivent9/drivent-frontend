@@ -1,3 +1,5 @@
+import ActiviesIndexComponents from '../../../components/Activities/Index';
+
 export default function Activities() {
-  return 'Atividades: Em breve!';
+  return <ActiviesIndexComponents />;
 }
