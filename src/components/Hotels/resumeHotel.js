@@ -3,7 +3,6 @@ import Button from '../Form/Button';
 import { Title } from '../Paymentboard/styled';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { getHotelsWithRooms } from '../../services/hotelApi';
 
 export default function ResumeHotel({ bookingUser, setStepBooking, getBookingUser }) {
   const { hotelsRooms } = useHotelRooms(bookingUser.Room.hotelId);
