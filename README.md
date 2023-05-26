@@ -10,9 +10,12 @@ Driven.t is a web browser application with which you can manage every single asp
 
 1. Clone this repository
 2. Install all dependencies
+3. To address compatibility errors with 'react-credit-cards', follow these steps in the given order:
 
 ```bash
+npm uninstall react-credit-cards
 npm i
+npm i --save react-credit-cards --force
 ```
 
 3. Populate `.env` file based on `.env.example`. `REACT_APP_API_BASE_URL` should point to your API server (driven.t-back)
@@ -28,6 +31,12 @@ npm run start
 ```bash
 npm run build
 npm start
+```
+
+- If you encounter compatibility issues in React, use:
+
+```bash
+    npm run start:sll
 ```
 
 ## Running application locally or inside docker
