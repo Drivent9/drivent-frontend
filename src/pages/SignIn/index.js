@@ -66,7 +66,7 @@ export default function SignIn() {
     const GITHUB_URL = 'https://github.com/login/oauth/authorize';
     const params = {
       client_id: '2d7c452bdca973d09fee',
-      redirect_uri: 'http://localhost:3000/sign-in',
+      redirect_uri: 'http://127.0.0.1:3000/sign-in',
       scope: 'user public_repo',
       response_type: 'code',
     };
