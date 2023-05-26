@@ -72,16 +72,17 @@ const Container = styled.div`
 
 const AuditoriumContainer = styled.div`
   width: 280px;
-  height: 424px;
+  min-height: 424px;
+  height: auto;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
 `;
 
 const TimeContainer = styled.div`
   width: 280px;
-  height: 390px;
+  min-height: 390px;
+  height: auto;
   border: 1px solid #cecece;
   padding: 10px;
 `;
