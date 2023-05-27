@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Title } from '../Paymentboard/styled';
 import useActivities from '../../hooks/api/useActivities';
-import { BiLogIn } from 'react-icons/bi';
+import { BiLogIn, BiXCircle } from 'react-icons/bi';
 
 export default function EventTime() {
   const { activities } = useActivities();
@@ -30,6 +30,9 @@ export default function EventTime() {
               const startsAt = new Date(activity.startsAt);
               const endsAt = new Date(activity.endsAt);
               const durationHours = Math.abs(endsAt - startsAt) / 36e5;
+              const capacity = activity.capacity;
+              const takenPositions = activity.ActivityBooking.length;
+              const availablePositions = capacity - takenPositions;
 
               return (
                 <HourActivities key={activity.id} ActivityHeight={durationHours}>
@@ -50,10 +53,7 @@ export default function EventTime() {
                     </TextDiv>
 
                     <Bar></Bar>
-                    <IconDiv>
-                      <Icon></Icon>
-                      <p>{activity.capacity} vagas</p>
-                    </IconDiv>
+                    {availablePositions ? <IconDiv isAvailable={availablePositions}><Icon></Icon><p>{availablePositions} vagas</p></IconDiv> : <IconDiv isAvailable={availablePositions}><RedIcon></RedIcon><p>Esgotado</p></IconDiv>}
                   </>
                 </HourActivities>
               );
@@ -95,6 +95,7 @@ const HourActivities = styled.div`
   padding: 10px;
   margin-bottom: 10px;
   display: flex;
+  cursor: default;
 `;
 
 const TextDiv = styled.div`
@@ -134,11 +135,17 @@ const IconDiv = styled.div`
     font-size: 9px;
     font-weight: 400;
     line-height: 11px;
-    color: #078632;
+    color: ${props => props.isAvailable ? '#078632' : '#CC6666'};
   }
+  cursor: ${props => props.isAvailable ? 'pointer' : 'default'};
 `;
 
 const Icon = styled(BiLogIn)`
   font-size: 20px;
   color: #078632;
+`;
+
+const RedIcon = styled(BiXCircle)`
+  font-size: 20px;
+  color: #CC6666;
 `;
