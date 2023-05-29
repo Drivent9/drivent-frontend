@@ -10,7 +10,6 @@ export default function ResumeHotel({ bookingUser, setStepBooking, getBookingUse
   const currentRoomBookings = hotelsRooms?.Rooms.find((room) => room.id === bookingUser.Room.id)?.Booking;
   useEffect(() => {
     getBookingUser();
-    console.log(hotelsRooms);
     if (currentRoomBookings?.length === 1) {
       setRoomMate('Somente você');
     } else if (currentRoomBookings?.length === 2) {
