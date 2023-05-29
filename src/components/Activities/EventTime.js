@@ -2,9 +2,12 @@ import styled from 'styled-components';
 import { Title } from '../Paymentboard/styled';
 import useActivities from '../../hooks/api/useActivities';
 import { BiLogIn, BiXCircle } from 'react-icons/bi';
+import { toast } from 'react-toastify';
+import useCreateActivity from '../../hooks/api/useCreateActivity';
 
 export default function EventTime() {
-  const { activities } = useActivities();
+  const { activities, getActivities } = useActivities();
+  const { createActivity } = useCreateActivity();
   console.log(activities);
 
   if (!activities) {
@@ -19,6 +22,18 @@ export default function EventTime() {
     acc[auditoriumId].push(activity);
     return acc;
   }, {});
+
+  async function handleAplication(id) {
+    const data = { activityId: id };
+
+    try {
+      await createActivity(data);
+      await getActivities();
+      toast('Atividade registrada com sucesso!');
+    } catch (err) {
+      toast('Não foi possível registrar a atividade');
+    }
+  }
 
   return (
     <Container>
@@ -53,7 +68,17 @@ export default function EventTime() {
                     </TextDiv>
 
                     <Bar></Bar>
-                    {availablePositions ? <IconDiv isAvailable={availablePositions}><Icon></Icon><p>{availablePositions} vagas</p></IconDiv> : <IconDiv isAvailable={availablePositions}><RedIcon></RedIcon><p>Esgotado</p></IconDiv>}
+                    {availablePositions ? (
+                      <IconDiv isAvailable={availablePositions} onClick={() => handleAplication(activity.id)}>
+                        <Icon></Icon>
+                        <p>{availablePositions} vagas</p>
+                      </IconDiv>
+                    ) : (
+                      <IconDiv isAvailable={availablePositions}>
+                        <RedIcon></RedIcon>
+                        <p>Esgotado</p>
+                      </IconDiv>
+                    )}
                   </>
                 </HourActivities>
               );
@@ -135,9 +160,9 @@ const IconDiv = styled.div`
     font-size: 9px;
     font-weight: 400;
     line-height: 11px;
-    color: ${props => props.isAvailable ? '#078632' : '#CC6666'};
+    color: ${(props) => (props.isAvailable ? '#078632' : '#CC6666')};
   }
-  cursor: ${props => props.isAvailable ? 'pointer' : 'default'};
+  cursor: ${(props) => (props.isAvailable ? 'pointer' : 'default')};
 `;
 
 const Icon = styled(BiLogIn)`
@@ -147,5 +172,5 @@ const Icon = styled(BiLogIn)`
 
 const RedIcon = styled(BiXCircle)`
   font-size: 20px;
-  color: #CC6666;
+  color: #cc6666;
 `;
