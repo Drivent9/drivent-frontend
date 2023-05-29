@@ -10,6 +10,7 @@ import { ptBR } from 'date-fns/locale';
 export default function ActiviesIndexComponents() {
   const [dates, setDates] = useState([]);
   const [error, setError] = useState('');
+  const [clickedDate, setClickedDate] = useState();
 
   async function getDays() {
     try {
@@ -39,9 +40,9 @@ export default function ActiviesIndexComponents() {
     <>
       <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
 
-      <EventDay dates={dates} />
+      <EventDay dates={dates} setClickedDate={setClickedDate} />
 
-      <EventTime></EventTime>
+      <EventTime clickedDate={clickedDate}></EventTime>
     </>
   );
 }

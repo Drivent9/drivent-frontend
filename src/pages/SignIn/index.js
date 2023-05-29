@@ -35,7 +35,6 @@ export default function SignIn() {
     if (code) {
       try {
         const userData = await gitHubSignIn(code);
-        console.log(userData);
         setUserData(userData);
         toast('Login realizado com sucesso!');
         navigate('/dashboard');

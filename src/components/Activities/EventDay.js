@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import { Title } from '../Paymentboard/styled';
 
-export default function EventDay({ dates }) {
+export default function EventDay({ dates, setClickedDate }) {
+  const handleDateClick = (date) => {
+    setClickedDate(date);
+  };
+
   return (
     <>
       <Title>Primeiro, filtre pelo dia do evento: </Title>
@@ -9,7 +13,9 @@ export default function EventDay({ dates }) {
         {dates.map((date) => {
           return (
             <>
-              <ButtonDay>{date}</ButtonDay>
+              <ButtonDay key={date} onClick={() => handleDateClick(date)}>
+                {date}
+              </ButtonDay>
             </>
           );
         })}
