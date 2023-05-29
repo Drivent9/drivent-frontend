@@ -6,9 +6,9 @@ import { useState } from 'react';
 import useActivities from '../../hooks/api/useActivities';
 
 export default function ActiviesIndexComponents() {
-  const { activities } = useActivities();
+  const { activities, getActivities } = useActivities();
   const [clickedDate, setClickedDate] = useState();
-
+  
   if (!activities) {
     return <p>Something went wrong. Please, try again.</p>;
   }
@@ -18,7 +18,7 @@ export default function ActiviesIndexComponents() {
 
       <EventDay setClickedDate={setClickedDate} activities={activities} />
 
-      <EventTime activities={activities} clickedDate={clickedDate}></EventTime>
+      <EventTime activities={activities} getActivities={getActivities} clickedDate={clickedDate}></EventTime>
     </>
   );
 }
