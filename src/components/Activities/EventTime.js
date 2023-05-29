@@ -1,13 +1,10 @@
 import styled from 'styled-components';
 import { Title } from '../Paymentboard/styled';
-import useActivities from '../../hooks/api/useActivities';
 import { BiLogIn, BiXCircle } from 'react-icons/bi';
 import React from 'react';
 import { format } from 'date-fns';
 
-export default function EventTime({ clickedDate }) {
-  const { activities } = useActivities();
-
+export default function EventTime({ clickedDate, activities }) {
   if (!activities || !clickedDate) {
     return <></>;
   }
