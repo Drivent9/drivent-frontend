@@ -11,7 +11,6 @@ import useUserData from '../../hooks/useUserData';
 export default function EventTime({ clickedDate, activities, getActivities }) {
   const { createActivity } = useCreateActivity();
   const userId = useUserData();
-  console.log(userId.id);
 
   if (!activities || !clickedDate) {
     return <></>;
@@ -32,9 +31,9 @@ export default function EventTime({ clickedDate, activities, getActivities }) {
     try {
       await createActivity(data);
       await getActivities();
-      toast('Atividade registrada com sucesso!');
+      toast('Atividade registrada com sucesso.');
     } catch (err) {
-      toast('Não foi possível registrar a atividade');
+      toast('Não foi possível fazer o registro.');
     }
   }
 
@@ -56,7 +55,7 @@ export default function EventTime({ clickedDate, activities, getActivities }) {
               const clickedDateStr = clickedDate.split(',')[1].trim();
 
               const booked = activity.ActivityBooking?.find((b) => b.userId === userId.id);
-              console.log(!booked);
+              
               if (activityDate !== clickedDateStr) {
                 return null;
               }
