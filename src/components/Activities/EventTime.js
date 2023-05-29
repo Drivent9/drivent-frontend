@@ -1,16 +1,16 @@
 import styled from 'styled-components';
 import { Title } from '../Paymentboard/styled';
-import useActivities from '../../hooks/api/useActivities';
 import { BiLogIn, BiXCircle } from 'react-icons/bi';
+import React from 'react';
+import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 import useCreateActivity from '../../hooks/api/useCreateActivity';
 
-export default function EventTime() {
+export default function EventTime({ clickedDate, activities }) {
   const { activities, getActivities } = useActivities();
   const { createActivity } = useCreateActivity();
-  console.log(activities);
 
-  if (!activities) {
+  if (!activities || !clickedDate) {
     return <></>;
   }
 
@@ -48,6 +48,13 @@ export default function EventTime() {
               const capacity = activity.capacity;
               const takenPositions = activity.ActivityBooking.length;
               const availablePositions = capacity - takenPositions;
+
+              const activityDate = format(startsAt, 'dd/MM');
+              const clickedDateStr = clickedDate.split(',')[1].trim();
+
+              if (activityDate !== clickedDateStr) {
+                return null;
+              }
 
               return (
                 <HourActivities key={activity.id} ActivityHeight={durationHours}>
@@ -161,7 +168,9 @@ const IconDiv = styled.div`
     font-weight: 400;
     line-height: 11px;
     color: ${(props) => (props.isAvailable ? '#078632' : '#CC6666')};
+    color: ${(props) => (props.isAvailable ? '#078632' : '#CC6666')};
   }
+  cursor: ${(props) => (props.isAvailable ? 'pointer' : 'default')};
   cursor: ${(props) => (props.isAvailable ? 'pointer' : 'default')};
 `;
 
@@ -172,5 +181,6 @@ const Icon = styled(BiLogIn)`
 
 const RedIcon = styled(BiXCircle)`
   font-size: 20px;
+  color: #cc6666;
   color: #cc6666;
 `;
