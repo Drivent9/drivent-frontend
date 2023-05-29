@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 import { Title } from '../Paymentboard/styled';
 import { BiLogIn, BiXCircle } from 'react-icons/bi';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
 import React from 'react';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 import useCreateActivity from '../../hooks/api/useCreateActivity';
+import useUserData from '../../hooks/useUserData';
 
-export default function EventTime({ clickedDate, activities }) {
-  const { activities, getActivities } = useActivities();
+export default function EventTime({ clickedDate, activities, getActivities }) {
   const { createActivity } = useCreateActivity();
+  const userId = useUserData();
+  console.log(userId.id);
 
   if (!activities || !clickedDate) {
     return <></>;
@@ -52,12 +55,14 @@ export default function EventTime({ clickedDate, activities }) {
               const activityDate = format(startsAt, 'dd/MM');
               const clickedDateStr = clickedDate.split(',')[1].trim();
 
+              const booked = activity.ActivityBooking?.find((b) => b.userId === userId.id);
+              console.log(!booked);
               if (activityDate !== clickedDateStr) {
                 return null;
               }
 
               return (
-                <HourActivities key={activity.id} ActivityHeight={durationHours}>
+                <HourActivities key={activity.id} ActivityHeight={durationHours} booked={!booked}>
                   <>
                     <TextDiv>
                       <h1>{activity.title}</h1>
@@ -75,15 +80,22 @@ export default function EventTime({ clickedDate, activities }) {
                     </TextDiv>
 
                     <Bar></Bar>
-                    {availablePositions ? (
-                      <IconDiv isAvailable={availablePositions} onClick={() => handleAplication(activity.id)}>
-                        <Icon></Icon>
-                        <p>{availablePositions} vagas</p>
-                      </IconDiv>
+                    {!booked ? (
+                      availablePositions ? (
+                        <IconDiv isAvailable={availablePositions} onClick={() => handleAplication(activity.id)}>
+                          <Icon></Icon>
+                          <p>{availablePositions} vagas</p>
+                        </IconDiv>
+                      ) : (
+                        <IconDiv isAvailable={availablePositions}>
+                          <RedIcon></RedIcon>
+                          <p>Esgotado</p>
+                        </IconDiv>
+                      )
                     ) : (
                       <IconDiv isAvailable={availablePositions}>
-                        <RedIcon></RedIcon>
-                        <p>Esgotado</p>
+                        <ConfirmedIcon></ConfirmedIcon>
+                        <p>Inscrito</p>
                       </IconDiv>
                     )}
                   </>
@@ -122,7 +134,7 @@ const TimeContainer = styled.div`
 const HourActivities = styled.div`
   width: 260px;
   height: ${(props) => props.ActivityHeight * 80}px;
-  background-color: #f1f1f1;
+  background-color: ${(props) => (props.booked ? '#f1f1f1' : '#D0FFDB')};
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
@@ -182,5 +194,9 @@ const Icon = styled(BiLogIn)`
 const RedIcon = styled(BiXCircle)`
   font-size: 20px;
   color: #cc6666;
-  color: #cc6666;
+`;
+
+const ConfirmedIcon = styled(AiOutlineCheckCircle)`
+  font-size: 20px;
+  color: #078632;
 `;
